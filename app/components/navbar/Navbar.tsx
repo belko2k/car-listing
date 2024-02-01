@@ -11,7 +11,7 @@ const Navbar = () => {
       <Wrapper>
         <div className="py-4 flex justify-between items-center">
           <h1 className="text-2xl md:text-3xl font-bold">Car Listing</h1>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             <nav>
               <ul className="flex gap-4">
                 {links.map((link) => (

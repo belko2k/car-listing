@@ -1,7 +1,7 @@
 'use client';
 
 type MenuItemProps = {
-  onClick: () => void;
+  onClick?: () => void;
   label: string;
 };
 

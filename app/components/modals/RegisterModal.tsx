@@ -2,20 +2,20 @@
 
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 
-type LoginModalProps = {
+type RegisterModalProps = {
   children: React.ReactNode;
   asChild: boolean;
 };
 
-const LoginModal = ({ children, asChild }: LoginModalProps) => {
+const RegisterModal = ({ children, asChild }: RegisterModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
       <DialogContent>
-        <div>Login Form</div>
+        <div>Register Form</div>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default LoginModal;
+export default RegisterModal;

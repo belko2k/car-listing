@@ -46,7 +46,8 @@ const UserMenu = () => {
           bg-white
           overflow-hidden
           right-0
-          top-12
+          top-10
+          sm:top-14
           text-sm
         "
         >
@@ -55,7 +56,7 @@ const UserMenu = () => {
               <LoginModal asChild>
                 <MenuItem label="Login" />
               </LoginModal>
-              <MenuItem onClick={() => {}} label="Sign Up" />
+              <MenuItem label="Sign Up" />
             </>
           </div>
         </div>

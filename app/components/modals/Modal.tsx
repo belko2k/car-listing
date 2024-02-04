@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +10,6 @@ import {
 } from '../ui/dialog';
 
 type ModalProps = {
-  isOpen?: boolean;
   onSubmit?: () => void;
   title?: string;
   description?: React.ReactElement;

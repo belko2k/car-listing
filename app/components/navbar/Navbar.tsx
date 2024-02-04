@@ -4,6 +4,7 @@ import { links } from '@/lib/constants';
 import Link from 'next/link';
 import Wrapper from '../Wrapper';
 import UserMenu from './UserMenu';
+import UserMenu2 from './UserMenu2';
 
 const Navbar = () => {
   return (
@@ -23,7 +24,7 @@ const Navbar = () => {
                 ))}
               </ul>
             </nav>
-            <UserMenu />
+            <UserMenu2 />
           </div>
         </div>
       </Wrapper>

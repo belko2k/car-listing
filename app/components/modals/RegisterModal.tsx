@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import RegisterForm from '../forms/RegisterForm';
 import MenuItem from '../navbar/MenuItem';
 import {
   Dialog,
@@ -10,20 +11,36 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-const RegisterModal = React.forwardRef(() => {
-  return (
-    <Dialog>
-      <DialogTrigger>
-        <MenuItem label="Register" />
-      </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Register</DialogTitle>
-        <DialogDescription>Welcome back</DialogDescription>
-        {/* <RegisterForm /> */}
-      </DialogContent>
-    </Dialog>
-  );
-});
+type RegisterModalProps = {
+  onClose: () => void;
+};
+
+const RegisterModal = React.forwardRef(
+  ({ onClose }: RegisterModalProps, ref) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <Dialog
+        open={open}
+        onOpenChange={(newOpenState) => {
+          setOpen(newOpenState);
+          if (!newOpenState) {
+            onClose();
+          }
+        }}
+      >
+        <DialogTrigger>
+          <MenuItem label="Register" />
+        </DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Sign Up</DialogTitle>
+          <DialogDescription>Create an account</DialogDescription>
+          <RegisterForm />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+);
 
 RegisterModal.displayName = 'RegisterModal';
 

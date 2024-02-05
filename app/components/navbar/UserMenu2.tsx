@@ -11,10 +11,12 @@ import {
 } from '../ui/dropdown-menu';
 import MenuItem from './MenuItem';
 import RegisterModal from '../modals/RegisterModal';
+import { useState } from 'react';
 
 const UserMenu2 = () => {
+  const [open, setOpen] = useState(false);
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className="focus:outline-none">
         <div
           className="
@@ -39,10 +41,18 @@ const UserMenu2 = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem asChild>
-          <LoginModal />
+          <LoginModal
+            onClose={() => {
+              setOpen(false);
+            }}
+          />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <RegisterModal />
+          <RegisterModal
+            onClose={() => {
+              setOpen(false);
+            }}
+          />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

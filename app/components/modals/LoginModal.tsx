@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import LoginForm from '../forms/LoginForm';
 import MenuItem from '../navbar/MenuItem';
 import {
@@ -11,9 +11,23 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-const LoginModal = React.forwardRef(() => {
+type LoginModalProps = {
+  onClose: () => void;
+};
+
+const LoginModal = React.forwardRef(({ onClose }: LoginModalProps, ref) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(newOpenState) => {
+        setOpen(newOpenState);
+        if (!newOpenState) {
+          onClose();
+        }
+      }}
+    >
       <DialogTrigger>
         <MenuItem label="Login" />
       </DialogTrigger>

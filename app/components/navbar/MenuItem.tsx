@@ -1,23 +1,12 @@
 'use client';
 
 type MenuItemProps = {
-  onClick?: () => void;
   label: string;
 };
 
-const MenuItem = ({ onClick, label }: MenuItemProps) => {
+const MenuItem = ({ label }: MenuItemProps) => {
   return (
-    <div
-      onClick={onClick}
-      className="
-        px-4
-        py-3
-        hover:bg-neutral-100
-        transition
-        font-semibold
-        cursor-pointer
-        "
-    >
+    <div className="text-base font-semi-bold py-2.5 hover:bg-neutral-100">
       {label}
     </div>
   );

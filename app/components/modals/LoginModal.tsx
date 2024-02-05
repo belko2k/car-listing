@@ -1,6 +1,8 @@
 'use client';
 
+import React from 'react';
 import LoginForm from '../forms/LoginForm';
+import MenuItem from '../navbar/MenuItem';
 import {
   Dialog,
   DialogContent,
@@ -9,15 +11,12 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-type LoginModalProps = {
-  children: React.ReactNode;
-  asChild: boolean;
-};
-
-const LoginModal = ({ children, asChild }: LoginModalProps) => {
+const LoginModal = React.forwardRef(() => {
   return (
     <Dialog>
-      <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
+      <DialogTrigger>
+        <MenuItem label="Login" />
+      </DialogTrigger>
       <DialogContent>
         <DialogTitle>Login</DialogTitle>
         <DialogDescription>Welcome back</DialogDescription>
@@ -25,6 +24,8 @@ const LoginModal = ({ children, asChild }: LoginModalProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+});
+
+LoginModal.displayName = 'LoginModal';
 
 export default LoginModal;

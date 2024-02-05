@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+import MenuItem from '../navbar/MenuItem';
 import {
   Dialog,
   DialogContent,
@@ -8,21 +10,21 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-type RegisterModalProps = {
-  children: React.ReactNode;
-  asChild: boolean;
-};
-
-const RegisterModal = ({ children, asChild }: RegisterModalProps) => {
+const RegisterModal = React.forwardRef(() => {
   return (
     <Dialog>
-      <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
+      <DialogTrigger>
+        <MenuItem label="Register" />
+      </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Sign Up</DialogTitle>
-        <DialogDescription>Make a new account</DialogDescription>
+        <DialogTitle>Register</DialogTitle>
+        <DialogDescription>Welcome back</DialogDescription>
+        {/* <RegisterForm /> */}
       </DialogContent>
     </Dialog>
   );
-};
+});
+
+RegisterModal.displayName = 'RegisterModal';
 
 export default RegisterModal;

@@ -6,6 +6,7 @@ import LoginModal from '../modals/LoginModal';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MenuItem from './MenuItem';
@@ -31,18 +32,18 @@ const UserMenu2 = () => {
           "
         >
           <AiOutlineMenu />
-          <div className="hidden sm:block">
+          {/* <div className="hidden sm:block">
             <Avatar src={null} />
-          </div>
+          </div> */}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <LoginModal asChild>
-          <MenuItem label="Login" />
-        </LoginModal>
-        <RegisterModal asChild>
-          <MenuItem label="Sign Up" />
-        </RegisterModal>
+        <DropdownMenuItem asChild>
+          <LoginModal />
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <RegisterModal />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

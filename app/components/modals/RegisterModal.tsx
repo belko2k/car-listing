@@ -1,6 +1,12 @@
 'use client';
 
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 
 type RegisterModalProps = {
   children: React.ReactNode;
@@ -12,7 +18,8 @@ const RegisterModal = ({ children, asChild }: RegisterModalProps) => {
     <Dialog>
       <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
       <DialogContent>
-        <div>Register Form</div>
+        <DialogTitle>Sign Up</DialogTitle>
+        <DialogDescription>Make a new account</DialogDescription>
       </DialogContent>
     </Dialog>
   );

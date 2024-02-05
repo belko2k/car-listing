@@ -6,7 +6,6 @@ import LoginModal from '../modals/LoginModal';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MenuItem from './MenuItem';

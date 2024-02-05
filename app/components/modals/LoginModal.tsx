@@ -1,6 +1,13 @@
 'use client';
 
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import LoginForm from '../forms/LoginForm';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 
 type LoginModalProps = {
   children: React.ReactNode;
@@ -12,7 +19,9 @@ const LoginModal = ({ children, asChild }: LoginModalProps) => {
     <Dialog>
       <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
       <DialogContent>
-        <div>Login Form</div>
+        <DialogTitle>Login</DialogTitle>
+        <DialogDescription>Welcome back</DialogDescription>
+        <LoginForm />
       </DialogContent>
     </Dialog>
   );

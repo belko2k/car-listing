@@ -1,37 +1,33 @@
-'use client';
+// 'use client';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '../ui/dialog';
+// import React from 'react';
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogTrigger,
+//   DialogTitle,
+//   DialogFooter,
+// } from '../ui/dialog';
 
-type ModalProps = {
-  onSubmit?: () => void;
-  title?: string;
-  description?: React.ReactElement;
-  body: React.ReactElement;
-  footer?: React.ReactElement;
-};
+// export type ModalProps = {
+//   children: React.ReactNode;
+//   title?: string;
+//   body?: React.ReactElement;
+//   footer?: React.ReactElement;
+//   asChild?: boolean;
+// };
 
-const Modal = ({ title, description, body, footer }: ModalProps) => {
-  //   const [showModal, setShowModal] = useState(false);
+// const Modal = ({ children, title, body, footer }: ModalProps) => {
+//   return (
+//     <Dialog>
+//       <DialogTrigger>{children}</DialogTrigger>
+//       <DialogContent>
+//         <DialogTitle>{title}</DialogTitle>
+//         {body}
+//         <DialogFooter>{footer}</DialogFooter>
+//       </DialogContent>
+//     </Dialog>
+//   );
+// };
 
-  return (
-    <Dialog>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        {body}
-        <DialogFooter>{footer}</DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-export default Modal;
+// export default Modal;

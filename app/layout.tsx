@@ -6,7 +6,7 @@ import Navbar from './components/navbar/Navbar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Car Listing',
+  title: 'Infinite Drive',
   description: 'Web App created with Nextjs for car listings',
 };
 

@@ -5,13 +5,24 @@ import Link from 'next/link';
 import Wrapper from '../Wrapper';
 import UserMenu from './UserMenu';
 import UserMenu2 from './UserMenu2';
+import Image from 'next/image';
+import logoLight from '@/public/images/logo-light.png';
 
 const Navbar = () => {
   return (
     <header className="shadow-md">
       <Wrapper>
         <div className="py-4 flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-bold">Car Listing</h1>
+          <div>
+            <Image
+              src={logoLight}
+              width="0"
+              height="0"
+              priority={true}
+              alt="Infinite Drive logo"
+              className="w-[7rem]"
+            />
+          </div>
           <div className="flex items-center gap-8">
             <nav>
               <ul className="flex gap-4">

@@ -20,15 +20,18 @@ const Navbar = () => {
               height="0"
               priority={true}
               alt="Infinite Drive logo"
-              className="w-[7rem]"
+              className="w-[5rem] sm:w-[7rem]"
             />
           </div>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-9">
             <nav>
-              <ul className="flex gap-4">
+              <ul className="flex gap-7">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <Link href={link.href} className="md:text-lg">
+                    <Link
+                      href={link.href}
+                      className="sm:text-xl hover:text-gray-500"
+                    >
                       {link.name}
                     </Link>
                   </li>

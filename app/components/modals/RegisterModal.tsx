@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import RegisterForm from '../forms/RegisterForm';
+import RegisterForm from '../auth/RegisterForm';
 import MenuItem from '../navbar/MenuItem';
 import {
   Dialog,

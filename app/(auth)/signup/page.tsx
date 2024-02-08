@@ -9,7 +9,7 @@ import Link from 'next/link';
 const RegisterPage = () => {
   return (
     <Wrapper>
-      <div className="max-w-[30rem] mx-auto grid gap-8 mt-[5rem]">
+      <div className="max-w-[30rem] mx-auto grid gap-8 mt-[5rem] pb-[5rem]">
         <h2 className="text-4xl font-semibold text-center">Sign Up</h2>
         <Separator />
         <RegisterForm />

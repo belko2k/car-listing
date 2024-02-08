@@ -55,13 +55,14 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-base">Email</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   placeholder="Enter an email address"
                   type="email"
                   disabled={isPending}
+                  className="text-base"
                 />
               </FormControl>
               <FormMessage />
@@ -73,13 +74,14 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-base">Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   placeholder="Enter a password"
                   type="password"
                   disabled={isPending}
+                  className="text-base"
                 />
               </FormControl>
               <FormMessage />
@@ -88,7 +90,7 @@ const LoginForm = () => {
         />
         <FormError message={error} />
         <FormSuccess message={success} />
-        <Button type="submit" disabled={isPending} className="w-full">
+        <Button type="submit" disabled={isPending} className="w-full text-base">
           Login
         </Button>
       </form>

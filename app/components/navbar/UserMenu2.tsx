@@ -1,7 +1,6 @@
 'use client';
 
 import { AiOutlineMenu } from 'react-icons/ai';
-import Avatar from '../Avatar';
 import LoginModal from '../modals/LoginModal';
 import {
   DropdownMenu,
@@ -34,9 +33,6 @@ const UserMenu2 = () => {
           "
         >
           <AiOutlineMenu />
-          {/* <div className="hidden sm:block">
-            <Avatar src={null} />
-          </div> */}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

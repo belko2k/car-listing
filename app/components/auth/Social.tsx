@@ -3,7 +3,11 @@
 import { FcGoogle } from 'react-icons/fc';
 import { Button } from '../ui/button';
 
-const Social = () => {
+type SocialProps = {
+  google: string;
+};
+
+const Social = ({ google }: SocialProps) => {
   return (
     <div className="flex items-center w-full">
       <Button
@@ -12,7 +16,7 @@ const Social = () => {
         className="flex gap-2 w-full"
         onClick={() => {}}
       >
-        <FcGoogle className="w-6 h-6" /> <p>Continue with Google</p>
+        <FcGoogle className="w-6 h-6" /> <p className="text-base">{google}</p>
       </Button>
     </div>
   );

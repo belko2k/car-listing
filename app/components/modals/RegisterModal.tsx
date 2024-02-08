@@ -10,6 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
+import { Separator } from '../ui/separator';
+import Link from 'next/link';
+import Social from '../auth/Social';
 
 type RegisterModalProps = {
   onClose: () => void;
@@ -35,7 +38,19 @@ const RegisterModal = React.forwardRef(
         <DialogContent>
           <DialogTitle>Sign Up</DialogTitle>
           <DialogDescription>Create an account</DialogDescription>
+          <Separator />
           <RegisterForm />
+          <Separator />
+          <Social google="Register with Google" />
+          <Link
+            href="/login"
+            onClick={() => {
+              onClose();
+            }}
+            className="text-center hover:underline hover:underline-offset-[6px]"
+          >
+            Already have an account?
+          </Link>
         </DialogContent>
       </Dialog>
     );

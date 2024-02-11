@@ -32,6 +32,7 @@ const RegisterForm = () => {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
       username: '',
       address: '',
       contactNumber: '',
@@ -93,25 +94,6 @@ const RegisterForm = () => {
         />
         <FormField
           control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-base">Password</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter a password"
-                  type="password"
-                  disabled={isPending}
-                  className="text-base"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="contactNumber"
           render={({ field }) => (
             <FormItem>
@@ -140,6 +122,44 @@ const RegisterForm = () => {
                   {...field}
                   placeholder="Enter your address"
                   type="text"
+                  disabled={isPending}
+                  className="text-base"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Password</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter a password"
+                  type="password"
+                  disabled={isPending}
+                  className="text-base"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Confirm password</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Confirm password"
+                  type="password"
                   disabled={isPending}
                   className="text-base"
                 />

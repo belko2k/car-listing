@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 
 import { db } from '@/lib/db';
 import { RegisterSchema } from '@/schemas';
+import { getUserByEmail, getUserByUsername } from '@/data/user';
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validateFields = RegisterSchema.safeParse(values);
@@ -20,11 +21,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const existingUserEmail = await db.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  const existingUserEmail = await getUserByEmail(email);
 
   if (existingUserEmail) {
     return {
@@ -32,11 +29,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     };
   }
 
-  const existingUserUsername = await db.user.findUnique({
-    where: {
-      username,
-    },
-  });
+  const existingUserUsername = await getUserByUsername(username);
 
   if (existingUserUsername) {
     return {

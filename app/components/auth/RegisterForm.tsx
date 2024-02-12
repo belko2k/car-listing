@@ -20,7 +20,6 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
-import { register } from '@/actions/register';
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -43,12 +42,12 @@ const RegisterForm = () => {
     setError('');
     setSuccess('');
 
-    startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      });
-    });
+    // startTransition(() => {
+    //   register(values).then((data) => {
+    //     setError(data.error);
+    //     setSuccess(data.success);
+    //   });
+    // });
   };
 
   return (

@@ -20,16 +20,21 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
+import { createClient } from '@/lib/supabase/client';
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
+  const supabase = createClient();
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: '',
+      firstName: '',
+      lastName: '',
       password: '',
       confirmPassword: '',
       username: '',
@@ -38,10 +43,16 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
     setSuccess('');
 
+    console.log(values);
+
+    // const {} = await supabase.auth.signUp({
+    //   email: values.email,
+    //   password: values.password,
+    // })
     // startTransition(() => {
     //   register(values).then((data) => {
     //     setError(data.error);
@@ -53,25 +64,7 @@ const RegisterForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-base">Username</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter a username"
-                  type="text"
-                  disabled={isPending}
-                  className="text-base"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* EMAIL */}
         <FormField
           control={form.control}
           name="email"
@@ -91,6 +84,68 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
+        {/* FIRST NAME */}
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">First Name</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter your first name"
+                  type="text"
+                  disabled={isPending}
+                  className="text-base"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* LAST NAME */}
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Last Name</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter your last name"
+                  type="text"
+                  disabled={isPending}
+                  className="text-base"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* USERNAME */}
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Username</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter a username"
+                  type="text"
+                  disabled={isPending}
+                  className="text-base"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* CONTACT */}
         <FormField
           control={form.control}
           name="contactNumber"
@@ -110,6 +165,7 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
+        {/* ADDRESS */}
         <FormField
           control={form.control}
           name="address"
@@ -129,6 +185,7 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
+        {/* PASSWORD */}
         <FormField
           control={form.control}
           name="password"
@@ -148,6 +205,7 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
+        {/* CONFIRM PASSWORD */}
         <FormField
           control={form.control}
           name="confirmPassword"
@@ -169,6 +227,7 @@ const RegisterForm = () => {
         />
         <FormError message={error} />
         <FormSuccess message={success} />
+        {/* SUBMIT BUTTON */}
         <Button type="submit" disabled={isPending} className="w-full text-base">
           Create an account
         </Button>

@@ -17,11 +17,11 @@ export const RegisterSchema = z
     username: z.string().min(1, {
       message: 'Username is required',
     }),
-    password: z.string().min(6, {
-      message: 'Password needs to contain at least 6 characters',
+    firstName: z.string().min(1, {
+      message: 'First name is required',
     }),
-    confirmPassword: z.string().min(6, {
-      message: 'Password needs to contain at least 6 characters',
+    lastName: z.string().min(1, {
+      message: 'Last name is required',
     }),
     contactNumber: z
       .string()
@@ -33,6 +33,12 @@ export const RegisterSchema = z
       }),
     address: z.string().min(1, {
       message: 'Address is required',
+    }),
+    password: z.string().min(6, {
+      message: 'Password needs to contain at least 6 characters',
+    }),
+    confirmPassword: z.string().min(6, {
+      message: 'Password needs to contain at least 6 characters',
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {

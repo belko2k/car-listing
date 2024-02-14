@@ -41,7 +41,7 @@ const RegisterModal = React.forwardRef(
           <Separator />
           <RegisterForm />
           <Separator />
-          <Social google="Register with Google" />
+          {/* <Social google="Register with Google" /> */}
           <Link
             href="/login"
             onClick={() => {

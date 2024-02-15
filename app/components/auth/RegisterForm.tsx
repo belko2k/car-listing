@@ -47,18 +47,31 @@ const RegisterForm = () => {
     setError('');
     setSuccess('');
 
-    console.log(values);
+    startTransition(async () => {
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            username: values.username,
+            address: values.address,
+            contactNumber: values.contactNumber,
+          },
+        },
+      });
 
-    // const {} = await supabase.auth.signUp({
-    //   email: values.email,
-    //   password: values.password,
-    // })
-    // startTransition(() => {
-    //   register(values).then((data) => {
-    //     setError(data.error);
-    //     setSuccess(data.success);
-    //   });
-    // });
+      if (error) {
+        setError(error.message);
+      } else if (data.user) {
+        await supabase.auth.signInWithPassword({
+          email: values.email,
+          password: values.password,
+        });
+        setSuccess('Registration successful!');
+      }
+    });
   };
 
   return (

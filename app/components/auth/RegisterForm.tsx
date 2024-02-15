@@ -20,14 +20,14 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
-import { createClient } from '@/lib/supabase/client';
-
+import { supabaseBrowser } from '@/lib/supabase/client';
+import { supabaseServer } from '@/lib/supabase/server';
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
-  const supabase = createClient();
+  const supabase = supabaseBrowser();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -43,7 +43,7 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError('');
     setSuccess('');
 

@@ -20,11 +20,15 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
+import { supabaseBrowser } from '@/lib/supabase/client';
+import { supabaseServer } from '@/lib/supabase/server';
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
+
+  const supabase = supabaseBrowser();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -38,12 +42,17 @@ const LoginForm = () => {
     setError('');
     setSuccess('');
 
-    // startTransition(() => {
-    //   login(values).then((data) => {
-    //     setError(data.error);
-    //     setSuccess(data.success);
-    //   });
-    // });
+    startTransition(async () => {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+      error
+        ? setError(error.message)
+        : data.user
+        ? setSuccess('Logged in successfully!')
+        : setError('Some other error');
+    });
   };
 
   return (

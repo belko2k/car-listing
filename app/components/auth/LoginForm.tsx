@@ -21,9 +21,12 @@ import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
-import { supabaseServer } from '@/lib/supabase/server';
 
-const LoginForm = () => {
+type LoginFormProps = {
+  onSuccess: () => void;
+};
+
+const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
@@ -50,7 +53,7 @@ const LoginForm = () => {
       error
         ? setError(error.message)
         : data.user
-        ? setSuccess('Logged in successfully!')
+        ? (setSuccess('Logged in successfully!'), onSuccess())
         : setError('Some other error');
     });
   };

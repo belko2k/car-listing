@@ -1,15 +1,26 @@
 import { supabaseServer } from '@/lib/supabase/server';
 import LogoutBtn from '../components/logout';
+import { supabaseBrowser } from '@/lib/supabase/client';
 
 export default async function Home() {
   const supabase = supabaseServer();
   const { data } = await supabase.auth.getSession();
 
-  console.log(data);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let userEmail = data.session?.user.email;
+  let getUser = user?.email;
+  let username = data.session?.user.user_metadata.username;
+  console.log(getUser == null);
 
   return (
     <div>
       <h1>HOME</h1>
+      <p>User: {userEmail}</p>
+      <p>Usergetuser: {getUser}</p>
+      <p>User metadata: {username}</p>
       <LogoutBtn />
     </div>
   );

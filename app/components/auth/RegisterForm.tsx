@@ -22,7 +22,12 @@ import FormError from './forrm-error';
 import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { supabaseServer } from '@/lib/supabase/server';
-const RegisterForm = () => {
+
+type RegisterFormProps = {
+  onRegisterSuccess: () => void;
+};
+
+const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
@@ -70,6 +75,7 @@ const RegisterForm = () => {
           password: values.password,
         });
         setSuccess('Registration successful!');
+        onRegisterSuccess();
       }
     });
   };

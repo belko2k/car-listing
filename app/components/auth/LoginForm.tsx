@@ -23,10 +23,10 @@ import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
 
 type LoginFormProps = {
-  onSuccess: () => void;
+  onLoginSuccess: () => void;
 };
 
-const LoginForm = ({ onSuccess }: LoginFormProps) => {
+const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
@@ -53,7 +53,7 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
       error
         ? setError(error.message)
         : data.user
-        ? (setSuccess('Logged in successfully!'), onSuccess())
+        ? (setSuccess('Logged in successfully!'), onLoginSuccess())
         : setError('Some other error');
     });
   };

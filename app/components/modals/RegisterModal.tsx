@@ -13,6 +13,7 @@ import {
 import { Separator } from '../ui/separator';
 import Link from 'next/link';
 import Social from '../auth/Social';
+import { useRouter } from 'next/navigation';
 
 type RegisterModalProps = {
   onClose: () => void;
@@ -21,6 +22,13 @@ type RegisterModalProps = {
 const RegisterModal = React.forwardRef(
   ({ onClose }: RegisterModalProps, ref) => {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
+
+    const handleRegisterSuccess = () => {
+      setOpen(false); // Close the dialog
+      onClose(); // Call onClose to notify parent component
+      router.refresh();
+    };
 
     return (
       <Dialog
@@ -39,7 +47,7 @@ const RegisterModal = React.forwardRef(
           <DialogTitle>Sign Up</DialogTitle>
           <DialogDescription>Create an account</DialogDescription>
           <Separator />
-          <RegisterForm />
+          <RegisterForm onRegisterSuccess={handleRegisterSuccess} />
           <Separator />
           {/* <Social google="Register with Google" /> */}
           <Link

@@ -22,7 +22,8 @@ type LoginModalProps = {
 const LoginModal = React.forwardRef(({ onClose }: LoginModalProps, ref) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const handleSuccess = () => {
+
+  const handleLoginSuccess = () => {
     setOpen(false); // Close the dialog
     onClose(); // Call onClose to notify parent component
     router.refresh();
@@ -45,7 +46,7 @@ const LoginModal = React.forwardRef(({ onClose }: LoginModalProps, ref) => {
         <DialogTitle>Login</DialogTitle>
         <DialogDescription>Welcome back</DialogDescription>
         <Separator />
-        <LoginForm onSuccess={handleSuccess} />
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
         <Social google="Sign in with Google" />
         <Separator />
         <Link

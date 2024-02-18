@@ -21,7 +21,7 @@ import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
-import { supabaseServer } from '@/lib/supabase/server';
+import { toast } from 'sonner';
 
 type RegisterFormProps = {
   onRegisterSuccess: () => void;
@@ -74,7 +74,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
           email: values.email,
           password: values.password,
         });
-        setSuccess('Registration successful!');
+        toast.success('Registration successful!');
         onRegisterSuccess();
       }
     });

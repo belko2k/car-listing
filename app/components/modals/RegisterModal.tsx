@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import RegisterForm from '../auth/RegisterForm';
-import MenuItem from '../navbar/MenuItem';
 import {
   Dialog,
   DialogContent,
@@ -17,10 +16,11 @@ import { useRouter } from 'next/navigation';
 
 type RegisterModalProps = {
   onClose: () => void;
+  children?: React.ReactNode;
 };
 
 const RegisterModal = React.forwardRef(
-  ({ onClose }: RegisterModalProps, ref) => {
+  ({ onClose, children }: RegisterModalProps, ref) => {
     const [open, setOpen] = useState(false);
     const router = useRouter();
 
@@ -40,9 +40,7 @@ const RegisterModal = React.forwardRef(
           }
         }}
       >
-        <DialogTrigger>
-          <MenuItem label="Register" />
-        </DialogTrigger>
+        <DialogTrigger>{children}</DialogTrigger>
         <DialogContent>
           <DialogTitle>Sign Up</DialogTitle>
           <DialogDescription>Create an account</DialogDescription>

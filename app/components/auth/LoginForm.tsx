@@ -21,6 +21,7 @@ import { Button } from '../ui/button';
 import FormError from './forrm-error';
 import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
+import { toast } from 'sonner';
 
 type LoginFormProps = {
   onLoginSuccess: () => void;
@@ -28,7 +29,7 @@ type LoginFormProps = {
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
+  // const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
   const supabase = supabaseBrowser();
@@ -43,7 +44,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError('');
-    setSuccess('');
+    // setSuccess('');
 
     startTransition(async () => {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -53,8 +54,8 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
       error
         ? setError(error.message)
         : data.user
-        ? (setSuccess('Logged in successfully!'), onLoginSuccess())
-        : setError('Some other error');
+        ? (toast.success('Logged in'), onLoginSuccess())
+        : setError('Some error');
     });
   };
 
@@ -100,7 +101,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
           )}
         />
         <FormError message={error} />
-        <FormSuccess message={success} />
+        {/* <FormSuccess message={success} /> */}
         <Button type="submit" disabled={isPending} className="w-full text-base">
           Login
         </Button>

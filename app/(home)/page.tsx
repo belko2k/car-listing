@@ -1,6 +1,5 @@
 import { supabaseServer } from '@/lib/supabase/server';
 import LogoutBtn from '../components/logout';
-import { supabaseBrowser } from '@/lib/supabase/client';
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -12,6 +11,7 @@ export default async function Home() {
 
   let userEmail = data.session?.user.email;
   let getUser = user?.email;
+  let getUserMeta = user?.user_metadata.address;
   let username = data.session?.user.user_metadata.username;
   console.log(getUser == null);
 
@@ -21,6 +21,7 @@ export default async function Home() {
       <p>User: {userEmail}</p>
       <p>Usergetuser: {getUser}</p>
       <p>User metadata: {username}</p>
+      <p>User metadata address: {getUserMeta}</p>
       <LogoutBtn />
     </div>
   );

@@ -1,23 +1,31 @@
 'use client';
 
 import { AiOutlineMenu } from 'react-icons/ai';
-import Avatar from '../Avatar';
-import { useCallback, useState } from 'react';
-import MenuItem from './MenuItem';
 import LoginModal from '../modals/LoginModal';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import MenuItem from './MenuItem';
+import RegisterModal from '../modals/RegisterModal';
+import { useState } from 'react';
+import { Session } from '@supabase/supabase-js';
+import LogoutBtn from './LogoutBtn';
 
-const UserMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+type UserMenuProps = {
+  session: Session | null;
+};
 
-  const toggleOpen = useCallback(() => {
-    setIsOpen((value) => !value);
-  }, []);
+const UserMenu = ({ session }: UserMenuProps) => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative">
-      <div
-        onClick={toggleOpen}
-        className="
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger className="focus:outline-none">
+        <div
+          className="
           flex
           items-center
           gap-4
@@ -30,38 +38,34 @@ const UserMenu = () => {
           hover:shadow-md
           transition
           "
-      >
-        <AiOutlineMenu />
-        <div className="hidden sm:block">
-          <Avatar src={null} />
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          className="
-          absolute
-          rounded-xl
-          shadow-md
-          w-[10rem]
-          bg-white
-          overflow-hidden
-          right-0
-          top-10
-          sm:top-14
-          text-sm
-        "
         >
-          <div className="flex flex-col cursor-pointer">
-            <>
-              <LoginModal asChild>
-                <MenuItem label="Login" />
-              </LoginModal>
-              <MenuItem label="Sign Up" />
-            </>
-          </div>
+          <AiOutlineMenu />
         </div>
-      )}
-    </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {session ? (
+          <LogoutBtn />
+        ) : (
+          <>
+            <LoginModal
+              onClose={() => {
+                setOpen(false);
+              }}
+            >
+              <MenuItem label="Login" />
+            </LoginModal>
+
+            <RegisterModal
+              onClose={() => {
+                setOpen(false);
+              }}
+            >
+              <MenuItem label="Sign up" />
+            </RegisterModal>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

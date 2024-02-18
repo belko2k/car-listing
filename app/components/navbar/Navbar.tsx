@@ -1,14 +1,15 @@
-'use client';
-
 import { links } from '@/lib/constants';
 import Link from 'next/link';
 import Wrapper from '../Wrapper';
 import UserMenu from './UserMenu';
-import UserMenu2 from './UserMenu2';
 import Image from 'next/image';
 import logoLight from '@/public/images/logo-light.png';
+import { supabaseServer } from '@/lib/supabase/server';
 
-const Navbar = () => {
+const Navbar = async () => {
+  const supabase = supabaseServer();
+  const session = await supabase.auth.getSession();
+
   return (
     <header className="shadow-md">
       <Wrapper>
@@ -38,7 +39,7 @@ const Navbar = () => {
                 ))}
               </ul>
             </nav>
-            <UserMenu2 />
+            <UserMenu session={session.data.session} />
           </div>
         </div>
       </Wrapper>

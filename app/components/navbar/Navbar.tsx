@@ -9,6 +9,8 @@ import { supabaseServer } from '@/lib/supabase/server';
 const Navbar = async () => {
   const supabase = supabaseServer();
   const session = await supabase.auth.getSession();
+  const { data } = session;
+  const user = data.session?.user.user_metadata.username;
 
   return (
     <header className="shadow-md">
@@ -39,7 +41,8 @@ const Navbar = async () => {
                 ))}
               </ul>
             </nav>
-            <UserMenu session={session.data.session} />
+
+            <UserMenu session={session.data.session} user={user} />
           </div>
         </div>
       </Wrapper>

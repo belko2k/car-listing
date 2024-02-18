@@ -1,25 +1,46 @@
 'use client';
 
-import { AiOutlineMenu } from 'react-icons/ai';
-import LoginModal from '../modals/LoginModal';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import MenuItem from './MenuItem';
+import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
-import { useState } from 'react';
 import { Session } from '@supabase/supabase-js';
-import LogoutBtn from './LogoutBtn';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { supabaseBrowser } from '@/lib/supabase/client';
+import { toast } from 'sonner';
+import { CheckCircle2 } from 'lucide-react';
 
 type UserMenuProps = {
   session: Session | null;
+  user: string | null;
 };
 
-const UserMenu = ({ session }: UserMenuProps) => {
+const UserMenu = ({ session, user }: UserMenuProps) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const supabase = supabaseBrowser();
+    await supabase.auth.signOut();
+    setOpen(false);
+    toast('Logged out', {
+      icon: <CheckCircle2 className="mr-4" />,
+    });
+    router.refresh();
+  };
+
+  const handleProfileRoute = () => {
+    router.push('/profile');
+    setOpen(false);
+  };
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -44,7 +65,19 @@ const UserMenu = ({ session }: UserMenuProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {session ? (
-          <LogoutBtn />
+          <>
+            <DropdownMenuLabel className="text-center">
+              Welcome
+              <span className="block mt-1 font-normal">{user}</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <MenuItem label="Profile" onClick={handleProfileRoute} />
+
+            <button aria-label="Log out" onClick={handleLogout}>
+              <MenuItem label="Log out" />
+            </button>
+          </>
         ) : (
           <>
             <LoginModal

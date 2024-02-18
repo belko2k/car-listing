@@ -1,5 +1,4 @@
 import { supabaseServer } from '@/lib/supabase/server';
-import LogoutBtn from '../components/logout';
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -22,7 +21,6 @@ export default async function Home() {
       <p>Usergetuser: {getUser}</p>
       <p>User metadata: {username}</p>
       <p>User metadata address: {getUserMeta}</p>
-      <LogoutBtn />
     </div>
   );
 }

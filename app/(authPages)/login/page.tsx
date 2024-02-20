@@ -5,14 +5,22 @@ import Link from 'next/link';
 import LoginForm from '@/app/components/auth/LoginForm';
 import Social from '@/app/components/auth/Social';
 import Wrapper from '@/app/components/Wrapper';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
+  const router = useRouter();
+
+  const handleLoginSuccess = () => {
+    router.push('/cars');
+    router.refresh();
+  };
+
   return (
     <Wrapper>
       <div className="max-w-[30rem] mx-auto grid gap-8 mt-[5rem]">
         <h2 className="text-4xl font-semibold text-center">Sign-in</h2>
         <Separator />
-        <LoginForm />
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
         <Separator />
         <Social google="Sign in with Google" />
         <Link

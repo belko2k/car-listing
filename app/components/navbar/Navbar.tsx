@@ -5,12 +5,15 @@ import UserMenu from './UserMenu';
 import Image from 'next/image';
 import logoLight from '@/public/images/logo-light.png';
 import { supabaseServer } from '@/lib/supabase/server';
+import AddListingBtn from './AddListingBtn';
 
 const Navbar = async () => {
   const supabase = supabaseServer();
-  const session = await supabase.auth.getSession();
-  const { data } = session;
-  const user = data.session?.user.user_metadata.username;
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const user = session?.user.user_metadata.username;
 
   return (
     <header className="shadow-md">
@@ -26,7 +29,9 @@ const Navbar = async () => {
               className="w-[5rem] sm:w-[7rem]"
             />
           </div>
-          <div className="flex items-center gap-9">
+          <div className="flex items-center gap-6">
+            <AddListingBtn session={session} />
+
             <nav>
               <ul className="flex gap-7">
                 {links.map((link) => (
@@ -41,8 +46,7 @@ const Navbar = async () => {
                 ))}
               </ul>
             </nav>
-
-            <UserMenu session={session.data.session} user={user} />
+            <UserMenu session={session} user={user} />
           </div>
         </div>
       </Wrapper>

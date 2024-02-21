@@ -22,6 +22,7 @@ import FormError from './forrm-error';
 import FormSuccess from './form-success';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
+import SubmitBtn from '../SubmitBtn';
 
 type RegisterFormProps = {
   onRegisterSuccess: () => void;
@@ -30,7 +31,6 @@ type RegisterFormProps = {
 const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
 
   const supabase = supabaseBrowser();
 
@@ -48,41 +48,44 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
+
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
     setSuccess('');
 
-    startTransition(async () => {
-      const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+      options: {
+        data: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          username: values.username,
+          address: values.address,
+          contactNumber: values.contactNumber,
+        },
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+    } else if (data.user) {
+      await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
-        options: {
-          data: {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            username: values.username,
-            address: values.address,
-            contactNumber: values.contactNumber,
-          },
-        },
       });
-
-      if (error) {
-        setError(error.message);
-      } else if (data.user) {
-        await supabase.auth.signInWithPassword({
-          email: values.email,
-          password: values.password,
-        });
-        toast.success('Registration successful!');
-        onRegisterSuccess();
-      }
-    });
+      toast.success('Registration successful!');
+      onRegisterSuccess();
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* EMAIL */}
         <FormField
           control={form.control}
@@ -95,7 +98,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter an email address"
                   type="email"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -115,7 +118,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter your first name"
                   type="text"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -135,7 +138,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter your last name"
                   type="text"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -156,7 +159,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter a username"
                   type="text"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -176,7 +179,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="ex. 123-456-789"
                   type="tel"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -196,7 +199,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter your address"
                   type="text"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -216,7 +219,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Enter a password"
                   type="password"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -236,7 +239,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
                   {...field}
                   placeholder="Confirm password"
                   type="password"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   className="text-base"
                 />
               </FormControl>
@@ -247,9 +250,11 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
         <FormError message={error} />
         <FormSuccess message={success} />
         {/* SUBMIT BUTTON */}
-        <Button type="submit" disabled={isPending} className="w-full text-base">
-          Create an account
-        </Button>
+        <SubmitBtn
+          label="Create an accounTT"
+          type="submit"
+          isSubmitting={isSubmitting}
+        />
       </form>
     </Form>
   );

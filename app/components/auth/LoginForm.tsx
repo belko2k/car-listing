@@ -1,23 +1,11 @@
-'use client';
-
 import * as z from 'zod';
-
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { LoginSchema } from '@/schemas';
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import SubmitBtn from '../SubmitBtn';
 import FormError from './forrm-error';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
@@ -28,10 +16,7 @@ type LoginFormProps = {
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const [error, setError] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
-
   const supabase = supabaseBrowser();
-
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -40,40 +25,42 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
+
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError('');
 
-    startTransition(async () => {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
-      error
-        ? setError(error.message)
-        : data.user
-        ? (toast.success('Logged in'), onLoginSuccess())
-        : setError('Some error');
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
     });
+    error
+      ? setError(error.message)
+      : data.user
+      ? (toast.success('Logged in'), onLoginSuccess())
+      : setError('Some error');
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {' '}
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">Email</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter an email address"
-                  type="email"
-                  disabled={isPending}
-                  className="text-base"
-                />
-              </FormControl>
+              <Input
+                {...field}
+                placeholder="Enter an email address"
+                type="email"
+                disabled={isSubmitting}
+                className="text-base"
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -84,23 +71,19 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">Password</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter a password"
-                  type="password"
-                  disabled={isPending}
-                  className="text-base"
-                />
-              </FormControl>
+              <Input
+                {...field}
+                placeholder="Enter a password"
+                type="password"
+                disabled={isSubmitting}
+                className="text-base"
+              />
               <FormMessage />
             </FormItem>
           )}
         />
         <FormError message={error} />
-        <Button type="submit" disabled={isPending} className="w-full text-base">
-          Login
-        </Button>
+        <SubmitBtn label="Login" type="submit" isSubmitting={isSubmitting} />
       </form>
     </Form>
   );

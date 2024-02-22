@@ -13,11 +13,7 @@ const AddListingBtn = ({ session }: AddListingBtnProps) => {
   const router = useRouter();
 
   const handleAddListing = () => {
-    if (session) {
-      console.log('Logged in'); // Perform desired action when logged in
-    } else {
-      router.push('/login'); // Redirect to login page if not logged in
-    }
+    if (!session) router.push('/login');
   };
 
   return (

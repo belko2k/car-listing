@@ -2,7 +2,7 @@
 
 import * as z from 'zod';
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -17,9 +17,8 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 import FormError from './forrm-error';
-import FormSuccess from './form-success';
+
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import SubmitBtn from '../SubmitBtn';
@@ -30,7 +29,6 @@ type RegisterFormProps = {
 
 const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
 
   const supabase = supabaseBrowser();
 
@@ -55,7 +53,6 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
-    setSuccess('');
 
     const { data, error } = await supabase.auth.signUp({
       email: values.email,
@@ -248,7 +245,6 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
           )}
         />
         <FormError message={error} />
-        <FormSuccess message={success} />
         {/* SUBMIT BUTTON */}
         <SubmitBtn
           label="Create an accounTT"

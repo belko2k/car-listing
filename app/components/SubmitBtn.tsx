@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 type SubmitBtnProps = {
   type: 'submit' | 'reset' | 'button';
   label: string;
-  isSubmitting: boolean; // Add this prop
+  isSubmitting: boolean;
 };
 
 const SubmitBtn = ({ type, label, isSubmitting }: SubmitBtnProps) => {

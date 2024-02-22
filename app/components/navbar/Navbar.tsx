@@ -6,6 +6,7 @@ import Image from 'next/image';
 import logoLight from '@/public/images/logo-light.png';
 import { supabaseServer } from '@/lib/supabase/server';
 import AddListingBtn from './AddListingBtn';
+import ListingModal from '../modals/ListingModal';
 
 const Navbar = async () => {
   const supabase = supabaseServer();
@@ -30,10 +31,14 @@ const Navbar = async () => {
             />
           </div>
           <div className="flex items-center gap-6">
-            <AddListingBtn session={session} />
+            {session ? (
+              <ListingModal session={session} />
+            ) : (
+              <AddListingBtn session={session} />
+            )}
 
             <nav>
-              <ul className="flex gap-7">
+              <ul className="flex gap-4">
                 {links.map((link) => (
                   <li key={link.name}>
                     <Link

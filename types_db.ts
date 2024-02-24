@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      "brand ": {
+      brand: {
         Row: {
           brand_name: string | null
           created_at: string
@@ -26,32 +26,6 @@ export type Database = {
           id?: number
         }
         Relationships: []
-      }
-      car: {
-        Row: {
-          created_at: string
-          id: number
-          model_id: number | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          model_id?: number | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          model_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "car_model_id_fkey"
-            columns: ["model_id"]
-            isOneToOne: false
-            referencedRelation: "model"
-            referencedColumns: ["id"]
-          }
-        ]
       }
       car_type: {
         Row: {
@@ -131,7 +105,6 @@ export type Database = {
       listing: {
         Row: {
           availability: boolean | null
-          car_id: number | null
           car_type_id: number | null
           color_id: number | null
           condition_id: number | null
@@ -143,6 +116,7 @@ export type Database = {
           id: number
           images: string[] | null
           mileage: number | null
+          model_id: number | null
           power: number | null
           previous_owners: number | null
           price: number | null
@@ -153,7 +127,6 @@ export type Database = {
         }
         Insert: {
           availability?: boolean | null
-          car_id?: number | null
           car_type_id?: number | null
           color_id?: number | null
           condition_id?: number | null
@@ -165,6 +138,7 @@ export type Database = {
           id?: number
           images?: string[] | null
           mileage?: number | null
+          model_id?: number | null
           power?: number | null
           previous_owners?: number | null
           price?: number | null
@@ -175,7 +149,6 @@ export type Database = {
         }
         Update: {
           availability?: boolean | null
-          car_id?: number | null
           car_type_id?: number | null
           color_id?: number | null
           condition_id?: number | null
@@ -187,6 +160,7 @@ export type Database = {
           id?: number
           images?: string[] | null
           mileage?: number | null
+          model_id?: number | null
           power?: number | null
           previous_owners?: number | null
           price?: number | null
@@ -196,13 +170,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "public_listing_car_id_fkey"
-            columns: ["car_id"]
-            isOneToOne: false
-            referencedRelation: "car"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "public_listing_car_type_id_fkey"
             columns: ["car_type_id"]
@@ -232,6 +199,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "public_listing_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "model"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "public_listing_transmission_id_fkey"
             columns: ["transmission_id"]
             isOneToOne: false
@@ -252,26 +226,26 @@ export type Database = {
           brand_id: number | null
           created_at: string
           id: number
-          model_name: string | null
+          model_name: string
         }
         Insert: {
           brand_id?: number | null
           created_at?: string
           id?: number
-          model_name?: string | null
+          model_name: string
         }
         Update: {
           brand_id?: number | null
           created_at?: string
           id?: number
-          model_name?: string | null
+          model_name?: string
         }
         Relationships: [
           {
-            foreignKeyName: "model_brand_id_fkey"
+            foreignKeyName: "public_model_brand_id_fkey"
             columns: ["brand_id"]
             isOneToOne: false
-            referencedRelation: "brand "
+            referencedRelation: "brand"
             referencedColumns: ["id"]
           }
         ]

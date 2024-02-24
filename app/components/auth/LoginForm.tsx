@@ -6,7 +6,7 @@ import { LoginSchema } from '@/schemas';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import SubmitBtn from '../SubmitBtn';
-import FormError from './forrm-error';
+import FormError from './form-error';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 
@@ -47,7 +47,6 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {' '}
         <FormField
           control={form.control}
           name="email"

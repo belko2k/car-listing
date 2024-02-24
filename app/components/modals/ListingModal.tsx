@@ -1,25 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
-import { Separator } from '../ui/separator';
-import AddListingBtn from '../navbar/AddListingBtn';
-import { Session } from '@supabase/supabase-js';
+
 import { Button } from '../ui/button';
 import { Car } from 'lucide-react';
+import { Progress } from '../ui/progress';
+import { useState } from 'react';
+import AddListingForm from '../AddListingForm';
 
-type ListingModalProps = {
-  session: Session | null;
-};
-
-const ListingModal = ({ session }: ListingModalProps) => {
+const ListingModal = () => {
+  const [progress, setProgress] = useState(13);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -29,11 +24,11 @@ const ListingModal = ({ session }: ListingModalProps) => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Add</DialogTitle>
-        <DialogDescription>add listing</DialogDescription>
-        <Separator />
+        <DialogTitle>List your car</DialogTitle>
 
-        <Separator />
+        <Progress value={progress} />
+
+        <AddListingForm />
       </DialogContent>
     </Dialog>
   );

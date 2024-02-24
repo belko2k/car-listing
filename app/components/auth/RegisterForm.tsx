@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import FormError from './forrm-error';
+import FormError from './form-error';
 
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';

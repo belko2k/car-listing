@@ -17,7 +17,7 @@ const Navbar = async () => {
   const user = session?.user.user_metadata.username;
 
   return (
-    <header className="shadow-md">
+    <header className="shadow-md bg-white">
       <Wrapper>
         <div className="py-4 flex justify-between items-center">
           <div>
@@ -31,11 +31,7 @@ const Navbar = async () => {
             />
           </div>
           <div className="flex items-center gap-6">
-            {session ? (
-              <ListingModal session={session} />
-            ) : (
-              <AddListingBtn session={session} />
-            )}
+            {session ? <ListingModal /> : <AddListingBtn />}
 
             <nav>
               <ul className="flex gap-4">

@@ -1,5 +1,9 @@
 const CarsPage = () => {
-  return <div>cars page</div>;
+  return (
+    <main className="">
+      <div>test</div>
+    </main>
+  );
 };
 
 export default CarsPage;

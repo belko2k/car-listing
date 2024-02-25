@@ -247,7 +247,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
         <FormError message={error} />
         {/* SUBMIT BUTTON */}
         <SubmitBtn
-          label="Create an accounTT"
+          label="Create an account"
           type="submit"
           isSubmitting={isSubmitting}
         />

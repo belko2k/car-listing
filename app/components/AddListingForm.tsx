@@ -2,7 +2,6 @@
 
 import * as z from 'zod';
 import { useState, useEffect } from 'react';
-import getCarTypes from '@/actions/getCarTypes';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -24,7 +23,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import getCarBrands from '@/actions/getCarBrands';
+
+import SubmitBtn from './SubmitBtn';
+
+import getCarTypes from '@/actions/getCarTypes';
+import getModels from '@/actions/getModels';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -35,31 +38,42 @@ const AddListingForm = () => {
       model: '',
     },
   });
+
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+  } = form;
+
   const [carType, setCarType] = useState<any>([]);
-  const [carBrand, setCarBrand] = useState<any>([]);
+  const [models, setModels] = useState<any>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string>('');
 
   useEffect(() => {
     const fetchFormData = async () => {
       const fetchedCarTypes = await getCarTypes();
-      const fetchedCarBrands = await getCarBrands();
+      const fetchedCars = await getModels();
       setCarType(fetchedCarTypes);
-      setCarBrand(fetchedCarBrands);
+      setModels(fetchedCars);
     };
 
     fetchFormData();
   }, []);
 
-  //   console.log(carBrand);
-  //   console.log(carType);
+  const filteredModels = models.filter(
+    (model: any) => model.brand.brand_name === selectedBrand
+  );
 
-  const onSubmit = () => {};
+  const onSubmit = (values: any) => {
+    console.log('Form Submitted:', values);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* TITLE */}
         <FormField
-          control={form.control}
+          control={control}
           name="title"
           render={({ field }) => (
             <FormItem>
@@ -68,69 +82,84 @@ const AddListingForm = () => {
                 {...field}
                 placeholder="Enter a title..."
                 type="text"
-                // disabled={isSubmitting}
+                disabled={isSubmitting}
                 className="text-base"
               />
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* BRAND */}
-        <FormField
-          control={form.control}
-          name="brand"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Brand</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a brand" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    {carBrand?.map((brand: any) => (
-                      <SelectItem
-                        key={brand.brand.id}
-                        value={brand.brand.id.toString()}
-                      >
-                        {brand.brand.brand_name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* MODEL */}
-        <FormField
-          control={form.control}
-          name="model"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Model</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a model" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    {carType?.map((ct: any) => (
-                      <SelectItem key={ct.id} value={ct.id.toString()}>
-                        {ct.car_type_name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+        <div className="grid grid-cols-2 gap-4">
+          {/* BRAND */}
+          <FormField
+            control={control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Brand</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setSelectedBrand(value);
+                  }}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a brand" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {models?.map((b: any) => (
+                        <SelectItem key={b.brand.id} value={b.brand.brand_name}>
+                          {b.brand.brand_name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* MODEL */}
+          <FormField
+            control={control}
+            name="model"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Model</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a model" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {filteredModels?.map((m: any) => (
+                        <SelectItem key={m.id} value={m.id.toString()}>
+                          {m.model_name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <SubmitBtn
+          label="Create a listing"
+          type="submit"
+          isSubmitting={isSubmitting}
         />
       </form>
     </Form>

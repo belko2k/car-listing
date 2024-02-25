@@ -58,34 +58,34 @@ export const ListingSchema = z.object({
   model: z.string().min(1, {
     message: 'Choose a model',
   }),
-  car_type: z.string().min(1, {
-    message: 'Choose a car type',
-  }),
-  condition: z.string().min(1, {
-    message: "Choose your car's condition",
-  }),
-  transmission: z.string().min(1, {
-    message: 'Choose a transmission',
-  }),
-  fuel_type: z.string().min(1, {
-    message: 'Choose a fuel type',
-  }),
-  color: z.string().min(1, {
-    message: "Choose car's color",
-  }),
-  price: z.number().positive({
-    message: 'Price must be a positive number',
-  }),
-  mileage: z.number().min(0),
-  power: z.number().min(1),
-  description: z.string(),
-  first_registration: z.string().refine((value) => {
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-    return dateRegex.test(value);
-  }),
-  previous_owners: z.number().min(0),
-  door_count: z.number().min(1),
-  seat_count: z.number().min(1),
+  // car_type: z.string().min(1, {
+  //   message: 'Choose a car type',
+  // }),
+  // condition: z.string().min(1, {
+  //   message: "Choose your car's condition",
+  // }),
+  // transmission: z.string().min(1, {
+  //   message: 'Choose a transmission',
+  // }),
+  // fuel_type: z.string().min(1, {
+  //   message: 'Choose a fuel type',
+  // }),
+  // color: z.string().min(1, {
+  //   message: "Choose car's color",
+  // }),
+  // price: z.number().positive({
+  //   message: 'Price must be a positive number',
+  // }),
+  // mileage: z.number().min(0),
+  // power: z.number().min(1),
+  // description: z.string(),
+  // first_registration: z.string().refine((value) => {
+  //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+  //   return dateRegex.test(value);
+  // }),
+  // previous_owners: z.number().min(0),
+  // door_count: z.number().min(1),
+  // seat_count: z.number().min(1),
   // image: z
   //   .object({
   //     type: z.string(),

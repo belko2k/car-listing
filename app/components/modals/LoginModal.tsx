@@ -27,6 +27,7 @@ const LoginModal = React.forwardRef(
     const handleLoginSuccess = () => {
       setOpen(false); // Close the dialog
       onClose(); // Call onClose to notify parent component
+      router.push('/');
       router.refresh();
     };
 

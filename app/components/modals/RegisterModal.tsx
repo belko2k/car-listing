@@ -27,6 +27,7 @@ const RegisterModal = React.forwardRef(
     const handleRegisterSuccess = () => {
       setOpen(false); // Close the dialog
       onClose(); // Call onClose to notify parent component
+      router.push('/');
       router.refresh();
     };
 

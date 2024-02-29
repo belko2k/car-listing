@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 const RegisterPage = () => {
   const router = useRouter();
   const handleRegisterSuccess = () => {
-    router.push('/cars');
+    router.push('/');
     router.refresh();
   };
 

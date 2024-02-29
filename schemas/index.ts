@@ -55,12 +55,12 @@ export const ListingSchema = z.object({
   brand: z.string().min(1, {
     message: 'Choose a brand',
   }),
-  model: z.string().min(1, {
+  model: z.number().min(1, {
     message: 'Choose a model',
   }),
-  // car_type: z.string().min(1, {
-  //   message: 'Choose a car type',
-  // }),
+  car_type: z.string().min(1, {
+    message: 'Choose a car type',
+  }),
   // condition: z.string().min(1, {
   //   message: "Choose your car's condition",
   // }),

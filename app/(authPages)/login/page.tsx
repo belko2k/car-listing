@@ -11,7 +11,7 @@ const LoginPage = () => {
   const router = useRouter();
 
   const handleLoginSuccess = () => {
-    router.push('/cars');
+    router.push('/');
     router.refresh();
   };
 

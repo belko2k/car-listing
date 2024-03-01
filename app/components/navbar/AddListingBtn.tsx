@@ -1,6 +1,6 @@
 'use client';
 
-import { Car } from 'lucide-react';
+import { ListPlus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 
@@ -12,9 +12,8 @@ const AddListingBtn = () => {
   };
 
   return (
-    <Button onClick={handleRoute} className="gap-3 text-md">
-      <Car />
-      List a car
+    <Button onClick={handleRoute} className="gap-3 text-xl">
+      <ListPlus />
     </Button>
   );
 };

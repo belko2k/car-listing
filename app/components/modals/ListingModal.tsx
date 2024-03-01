@@ -8,7 +8,7 @@ import {
 } from '../ui/dialog';
 
 import { Button } from '../ui/button';
-import { Car } from 'lucide-react';
+import { ListPlus } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { useState } from 'react';
 import AddListingForm from '../AddListingForm';
@@ -18,9 +18,8 @@ const ListingModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-3 text-md">
-          <Car />
-          List a car
+        <Button>
+          <ListPlus />
         </Button>
       </DialogTrigger>
       <DialogContent>

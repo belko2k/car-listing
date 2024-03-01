@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/Footer';
 import { Toaster } from './components/ui/sonner';
+import Header from './components/navbar/Header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#f4f5f6]`}>
-        <Navbar />
+        <Header />
         {children}
         {/* <Footer /> */}
         <Toaster richColors position="bottom-center" />

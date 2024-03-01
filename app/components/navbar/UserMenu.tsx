@@ -13,10 +13,11 @@ import MenuItem from './MenuItem';
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 import { Session } from '@supabase/supabase-js';
-import { AiOutlineMenu } from 'react-icons/ai';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { CheckCircle2 } from 'lucide-react';
+import { Avatar, AvatarImage } from '../ui/avatar';
+import avatar from '@/public/images/avatar.png';
 
 type UserMenuProps = {
   session: Session | null;
@@ -44,24 +45,10 @@ const UserMenu = ({ session, user }: UserMenuProps) => {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger className="focus:outline-none">
-        <div
-          className="
-          flex
-          items-center
-          gap-4
-          px-3
-          py-2
-          border-[1px]
-          border-neutral-200
-          cursor-pointer
-          rounded-full
-          hover:shadow-md
-          transition
-          "
-        >
-          <AiOutlineMenu />
-        </div>
+      <DropdownMenuTrigger>
+        <Avatar>
+          <AvatarImage src={avatar.src} alt="user avatar" />
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {session ? (

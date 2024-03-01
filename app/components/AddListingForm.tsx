@@ -57,6 +57,7 @@ const AddListingForm = () => {
   const {
     handleSubmit,
     control,
+    getValues,
     formState: { isSubmitting },
   } = form;
 
@@ -95,7 +96,7 @@ const AddListingForm = () => {
     form.setValue('model', 0);
   };
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: z.infer<typeof ListingSchema>) => {
     console.log('Form Submitted:', values);
   };
 
@@ -120,7 +121,7 @@ const AddListingForm = () => {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 grid-flow-row gap-x-3 gap-y-5">
           {/* BRAND */}
           <FormField
             control={control}
@@ -240,38 +241,40 @@ const AddListingForm = () => {
               </FormItem>
             )}
           />
+
+          {/* CAR TYPE */}
+          <FormField
+            control={control}
+            name="car_type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Car Type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a car type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {carType?.map((ct: any) => (
+                        <SelectItem key={ct.id} value={ct.id.toString()}>
+                          {ct.car_type_name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        {/* CAR TYPE */}
-        <FormField
-          control={control}
-          name="car_type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Car Type</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={isSubmitting}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a car type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    {carType?.map((ct: any) => (
-                      <SelectItem key={ct.id} value={ct.id.toString()}>
-                        {ct.car_type_name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <SubmitBtn
           label="Create a listing"
           type="submit"

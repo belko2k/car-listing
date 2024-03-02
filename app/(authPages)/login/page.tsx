@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   return (
     <Wrapper>
-      <div className="max-w-[30rem] mx-auto grid gap-8 mt-[5rem]">
+      <div className="max-w-[30rem] mx-auto grid gap-8 mt-[4rem] pb-10">
         <h2 className="text-4xl font-semibold text-center">Sign-in</h2>
         <Separator />
         <LoginForm onLoginSuccess={handleLoginSuccess} />

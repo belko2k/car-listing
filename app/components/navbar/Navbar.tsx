@@ -23,7 +23,7 @@ const Navbar = ({ session, user }: NavbarProps) => {
         <div className="py-4 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="sm:hidden">
-              <MenuSidebar />
+              <MenuSidebar session={session} />
             </div>
             <div>
               <Link href="/">
@@ -39,24 +39,22 @@ const Navbar = ({ session, user }: NavbarProps) => {
             </div>
           </div>
           <div className="flex gap-6 items-center">
-            {session ? <ListingModal /> : <AddListingBtn />}
             <div className="hidden sm:block">
-              <div className="flex gap-6">
-                <nav>
-                  <ul className="flex gap-4">
-                    {links.map((link) => (
-                      <li key={link.name}>
-                        <Link
-                          href={link.href}
-                          className="sm:text-xl hover:text-gray-500"
-                        >
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
+              <nav className="flex gap-6 items-center">
+                {session ? <ListingModal /> : <AddListingBtn />}
+                <ul className="flex gap-4">
+                  {links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="sm:text-xl hover:text-gray-500"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
             <UserMenu session={session} user={user} />
           </div>

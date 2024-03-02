@@ -11,7 +11,7 @@ const Header = async () => {
 
   const user = session?.user.user_metadata.username;
   return (
-    <header className="shadow-md bg-white">
+    <header className="shadow-md bg-white sticky top-0">
       <Navbar session={session} user={user} />
     </header>
   );

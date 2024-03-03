@@ -1,8 +1,8 @@
 import { supabaseBrowser } from '@/lib/supabase/client';
 
-const getTransmissions = async () => {
+const getFuelType = async () => {
   const supabase = supabaseBrowser();
-  const { data, error } = await supabase.from('transmission').select('*');
+  const { data, error } = await supabase.from('fuel_type').select('*');
 
   if (error) {
     console.log(error.message);
@@ -10,4 +10,4 @@ const getTransmissions = async () => {
   return (data as any) || [];
 };
 
-export default getTransmissions;
+export default getFuelType;

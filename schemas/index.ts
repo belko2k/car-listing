@@ -61,18 +61,16 @@ export const ListingSchema = z.object({
   car_type: z.string().min(1, {
     message: 'Choose a car type',
   }),
-  // condition: z.string().min(1, {
-  //   message: "Choose your car's condition",
-  // }),
-  // transmission: z.string().min(1, {
-  //   message: 'Choose a transmission',
-  // }),
-  // fuel_type: z.string().min(1, {
-  //   message: 'Choose a fuel type',
-  // }),
-  // color: z.string().min(1, {
-  //   message: "Choose car's color",
-  // }),
+  condition: z.number().min(1, {
+    message: "Choose your car's condition",
+  }),
+  transmission: z.string().min(1, {
+    message: 'Choose a transmission',
+  }),
+  fuel_type: z.string().min(1, {
+    message: 'Choose a fuel type',
+  }),
+  color: z.number().nullable(),
   // price: z.number().positive({
   //   message: 'Price must be a positive number',
   // }),

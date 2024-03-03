@@ -6,13 +6,13 @@ import Navbar from './Navbar';
 const Header = async () => {
   const supabase = supabaseServer();
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const user = session?.user.user_metadata.username;
+  const username = user?.user_metadata.username;
   return (
     <header className="shadow-md bg-white sticky top-0">
-      <Navbar session={session} user={user} />
+      <Navbar user={user} username={username} />
     </header>
   );
 };

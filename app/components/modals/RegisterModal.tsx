@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import RegisterForm from '../auth/RegisterForm';
 import {
@@ -25,10 +23,10 @@ const RegisterModal = React.forwardRef(
     const router = useRouter();
 
     const handleRegisterSuccess = () => {
-      setOpen(false); // Close the dialog
-      onClose(); // Call onClose to notify parent component
-      router.push('/');
-      router.refresh();
+      // setOpen(false); // Close the dialog
+      // onClose(); // Call onClose to notify parent component
+      // router.push('/');
+      // router.refresh();
     };
 
     return (

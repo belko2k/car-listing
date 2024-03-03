@@ -29,6 +29,9 @@ import SubmitBtn from './SubmitBtn';
 import getModels from '@/actions/getModels';
 import getCarTypes from '@/actions/getCarTypes';
 import getCondition from '@/actions/getCondition';
+import getFuelType from '@/actions/getFuelType';
+import getBrands from '@/actions/getBrands';
+
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
 import { Check, ChevronsUpDown } from 'lucide-react';
@@ -41,7 +44,8 @@ import {
 } from './ui/command';
 
 import { cn } from '@/lib/utils';
-import getBrands from '@/actions/getBrands';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import getTransmissions from '@/actions/getTransmissions';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -51,6 +55,9 @@ const AddListingForm = () => {
       brand: '',
       model: 0,
       car_type: '',
+      condition: 0,
+      transmission: '',
+      fuel_type: '',
     },
   });
 
@@ -69,6 +76,8 @@ const AddListingForm = () => {
   const [selectedBrand, setSelectedBrand] = useState<string>('');
   const [carType, setCarType] = useState<any>([]);
   const [condition, setCondition] = useState<any>([]);
+  const [transmission, setTransmission] = useState<any>([]);
+  const [fuelType, setFuelType] = useState<any>([]);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -76,10 +85,14 @@ const AddListingForm = () => {
       const fetchedModels = await getModels();
       const fetchedCarTypes = await getCarTypes();
       const fetchedCondition = await getCondition();
+      const fetchedTransmission = await getTransmissions();
+      const fetchedFuelType = await getFuelType();
       setBrands(fetchedBrands);
       setModels(fetchedModels);
       setCarType(fetchedCarTypes);
       setCondition(fetchedCondition);
+      setTransmission(fetchedTransmission);
+      setFuelType(fetchedFuelType);
     };
 
     fetchFormData();
@@ -264,6 +277,102 @@ const AddListingForm = () => {
                       {carType?.map((ct: any) => (
                         <SelectItem key={ct.id} value={ct.id.toString()}>
                           {ct.car_type_name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* CONDITION */}
+          <FormField
+            control={form.control}
+            name="condition"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Condition</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    className="flex gap-6"
+                  >
+                    {condition?.map((c: any) => (
+                      <FormItem
+                        key={c.id}
+                        className="flex items-center gap-2 space-y-0"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={c.id} />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {c.condition_type}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* TRANSMISSION*/}
+          <FormField
+            control={control}
+            name="transmission"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Transmission</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a transmission" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {transmission?.map((t: any) => (
+                        <SelectItem key={t.id} value={t.id.toString()}>
+                          {t.transmission_type}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* FUEL TYPE */}
+          <FormField
+            control={control}
+            name="fuel_type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fuel Type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a fuel type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {fuelType?.map((f: any) => (
+                        <SelectItem key={f.id} value={f.id.toString()}>
+                          {f.fuel_type_name}
                         </SelectItem>
                       ))}
                     </SelectGroup>

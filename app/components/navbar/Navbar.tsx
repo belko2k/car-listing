@@ -9,21 +9,21 @@ import logoLight from '@/public/images/logo-light.png';
 import AddListingBtn from './AddListingBtn';
 import ListingModal from '../modals/ListingModal';
 import MenuSidebar from './MenuSidebar';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 
 type NavbarProps = {
-  session: Session | null;
-  user: string | null;
+  username: string | null;
+  user: User | null;
 };
 
-const Navbar = ({ session, user }: NavbarProps) => {
+const Navbar = ({ username, user }: NavbarProps) => {
   return (
     <header className="shadow-md bg-white">
       <Wrapper>
         <div className="py-4 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="sm:hidden">
-              <MenuSidebar session={session} />
+              <MenuSidebar user={user} />
             </div>
             <div>
               <Link href="/">
@@ -41,7 +41,7 @@ const Navbar = ({ session, user }: NavbarProps) => {
           <div className="flex gap-6 items-center">
             <div className="hidden sm:block">
               <nav className="flex gap-6 items-center">
-                {session ? <ListingModal /> : <AddListingBtn />}
+                {user ? <ListingModal /> : <AddListingBtn />}
                 <ul className="flex gap-4">
                   {links.map((link) => (
                     <li key={link.name}>
@@ -56,7 +56,7 @@ const Navbar = ({ session, user }: NavbarProps) => {
                 </ul>
               </nav>
             </div>
-            <UserMenu session={session} user={user} />
+            <UserMenu username={username} user={user} />
           </div>
         </div>
       </Wrapper>

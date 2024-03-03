@@ -17,11 +17,14 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
+
+import SubmitBtn from '../SubmitBtn';
+
 import FormError from './form-error';
+import FormSuccess from './form-success';
+import { toast } from 'sonner';
 
 import { supabaseBrowser } from '@/lib/supabase/client';
-import { toast } from 'sonner';
-import SubmitBtn from '../SubmitBtn';
 
 type RegisterFormProps = {
   onRegisterSuccess: () => void;
@@ -29,6 +32,7 @@ type RegisterFormProps = {
 
 const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
 
   const supabase = supabaseBrowser();
 
@@ -54,30 +58,39 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
 
-    const { data, error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-      options: {
-        data: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          username: values.username,
-          address: values.address,
-          contactNumber: values.contactNumber,
-        },
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-    } else if (data.user) {
-      await supabase.auth.signInWithPassword({
+    try {
+      const { data, error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
+        options: {
+          data: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            username: values.username,
+            address: values.address,
+            contactNumber: values.contactNumber,
+          },
+        },
       });
-      toast.success('Registration successful!');
-      onRegisterSuccess();
+      if (error) {
+        setError(`Error in try block ${error.message}`);
+      } else {
+        setSuccess(`Succces in try block ${success} - check mail`);
+      }
+    } catch (error) {
+      toast.error(`Error in catch block ${error}`);
     }
+
+    // if (error) {
+    //
+    // } else if (data.user) {
+    //   // await supabase.auth.signInWithPassword({
+    //   //   email: values.email,
+    //   //   password: values.password,
+    //   // });
+    //
+    //   onRegisterSuccess();
+    // }
   };
 
   return (
@@ -245,6 +258,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
           )}
         />
         <FormError message={error} />
+        <FormSuccess message={success} />
         {/* SUBMIT BUTTON */}
         <SubmitBtn
           label="Create an account"

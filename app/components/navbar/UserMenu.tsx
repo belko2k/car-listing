@@ -12,7 +12,7 @@ import {
 import MenuItem from './MenuItem';
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { CheckCircle2 } from 'lucide-react';
@@ -20,11 +20,11 @@ import { Avatar, AvatarImage } from '../ui/avatar';
 import avatar from '@/public/images/avatar.png';
 
 type UserMenuProps = {
-  session: Session | null;
-  user: string | null;
+  username: string | null;
+  user: User | null;
 };
 
-const UserMenu = ({ session, user }: UserMenuProps) => {
+const UserMenu = ({ username, user }: UserMenuProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -51,11 +51,11 @@ const UserMenu = ({ session, user }: UserMenuProps) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {session ? (
+        {user ? (
           <>
             <DropdownMenuLabel className="text-center">
               Welcome
-              <span className="block mt-1 font-normal">{user}</span>
+              <span className="block mt-1 font-normal">{username}</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '../ui/sheet';
 import { links } from '@/lib/constants';
 import Link from 'next/link';
@@ -7,8 +5,13 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import ListingModal from '../modals/ListingModal';
 import AddListingBtn from './AddListingBtn';
 import { usePathname } from 'next/navigation';
+import { User } from '@supabase/supabase-js';
 
-const MenuSidebar = ({ session }: any) => {
+type MenuSidebarProps = {
+  user: User | null;
+};
+
+const MenuSidebar = ({ user }: MenuSidebarProps) => {
   const pathname = usePathname();
   const isActive = (path: string) => path === pathname;
   return (
@@ -51,9 +54,7 @@ const MenuSidebar = ({ session }: any) => {
                 </SheetClose>
               </li>
             ))}
-            <SheetClose asChild>
-              {session ? <ListingModal /> : <AddListingBtn />}
-            </SheetClose>
+            {user ? <ListingModal /> : <AddListingBtn />}
           </ul>
         </nav>
       </SheetContent>

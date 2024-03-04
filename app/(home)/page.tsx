@@ -11,7 +11,7 @@ export default async function Home() {
   let getUserEmail = user?.email;
   let getUserMeta = user?.user_metadata.address;
 
-  console.log(getUser2 == null);
+  console.log('User has a session', getUser2 !== null);
   // console.log(getUser2);
 
   return (

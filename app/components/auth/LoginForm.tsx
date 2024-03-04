@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '@/schemas';
@@ -9,6 +9,7 @@ import SubmitBtn from '../SubmitBtn';
 import FormError from './form-error';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 type LoginFormProps = {
   onLoginSuccess: () => void;
@@ -16,6 +17,10 @@ type LoginFormProps = {
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const [error, setError] = useState<string | undefined>('');
+  const [captchaToken, setCaptchaToken] = useState();
+
+  const captcha = useRef<HCaptcha | null>(null);
+
   const supabase = supabaseBrowser();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -36,12 +41,22 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
+      options: {
+        captchaToken,
+      },
     });
-    error
-      ? setError(error.message)
-      : data.user
-      ? (toast.success('Logged in'), onLoginSuccess())
-      : setError('Some error');
+
+    if (captcha.current !== null) {
+      captcha.current.resetCaptcha();
+    }
+    if (error) {
+      setError(error.message);
+    } else if (data.user) {
+      toast.success('Logged in');
+      onLoginSuccess();
+    } else {
+      setError('Some error');
+    }
   };
 
   return (
@@ -82,6 +97,17 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
           )}
         />
         <FormError message={error} />
+
+        {/* CAPTCHA */}
+        <HCaptcha
+          ref={captcha}
+          sitekey="b77060c1-946b-4f06-9cad-66edb8b17647"
+          onVerify={(token: any) => {
+            setCaptchaToken(token);
+          }}
+        />
+
+        {/* SUBMIT */}
         <SubmitBtn label="Login" type="submit" isSubmitting={isSubmitting} />
       </form>
     </Form>

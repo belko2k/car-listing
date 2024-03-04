@@ -20,11 +20,10 @@ import { Avatar, AvatarImage } from '../ui/avatar';
 import avatar from '@/public/images/avatar.png';
 
 type UserMenuProps = {
-  username: string | null;
   user: User | null;
 };
 
-const UserMenu = ({ username, user }: UserMenuProps) => {
+const UserMenu = ({ user }: UserMenuProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -55,7 +54,9 @@ const UserMenu = ({ username, user }: UserMenuProps) => {
           <>
             <DropdownMenuLabel className="text-center">
               Welcome
-              <span className="block mt-1 font-normal">{username}</span>
+              <span className="block mt-1 font-normal">
+                {user.user_metadata.username}
+              </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 

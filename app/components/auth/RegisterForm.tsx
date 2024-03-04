@@ -2,7 +2,7 @@
 
 import * as z from 'zod';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -26,6 +26,8 @@ import { toast } from 'sonner';
 
 import { supabaseBrowser } from '@/lib/supabase/client';
 
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+
 type RegisterFormProps = {
   onRegisterSuccess: () => void;
 };
@@ -33,6 +35,9 @@ type RegisterFormProps = {
 const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
+  const [captchaToken, setCaptchaToken] = useState();
+
+  const captcha = useRef<HCaptcha | null>(null);
 
   const supabase = supabaseBrowser();
 
@@ -57,6 +62,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
+    setSuccess('');
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -70,15 +76,28 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
             address: values.address,
             contactNumber: values.contactNumber,
           },
+          emailRedirectTo: 'http://localhost:3000/login',
+          captchaToken,
         },
       });
-      if (error) {
-        setError(`Error in try block ${error.message}`);
+
+      if (
+        data.user &&
+        data.user.identities &&
+        data.user.identities.length === 0
+      ) {
+        setError('User already exists');
+      } else if (error) {
+        setError(`Error - ${error.message}`);
       } else {
-        setSuccess(`Succces in try block ${success} - check mail`);
+        setSuccess(`We've sent you an email to verify`);
       }
     } catch (error) {
       toast.error(`Error in catch block ${error}`);
+    }
+
+    if (captcha.current !== null) {
+      captcha.current.resetCaptcha();
     }
 
     // if (error) {
@@ -259,6 +278,16 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
         />
         <FormError message={error} />
         <FormSuccess message={success} />
+
+        {/* CAPTCHA */}
+        <HCaptcha
+          ref={captcha}
+          sitekey="b77060c1-946b-4f06-9cad-66edb8b17647"
+          onVerify={(token: any) => {
+            setCaptchaToken(token);
+          }}
+        />
+
         {/* SUBMIT BUTTON */}
         <SubmitBtn
           label="Create an account"

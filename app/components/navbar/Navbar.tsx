@@ -12,11 +12,10 @@ import MenuSidebar from './MenuSidebar';
 import { User } from '@supabase/supabase-js';
 
 type NavbarProps = {
-  username: string | null;
   user: User | null;
 };
 
-const Navbar = ({ username, user }: NavbarProps) => {
+const Navbar = ({ user }: NavbarProps) => {
   return (
     <header className="shadow-md bg-white">
       <Wrapper>
@@ -56,7 +55,7 @@ const Navbar = ({ username, user }: NavbarProps) => {
                 </ul>
               </nav>
             </div>
-            <UserMenu username={username} user={user} />
+            <UserMenu user={user} />
           </div>
         </div>
       </Wrapper>

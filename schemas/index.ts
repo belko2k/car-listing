@@ -74,7 +74,10 @@ export const ListingSchema = z.object({
     .number()
     .int()
     .gte(0)
-    .lt(1000000000, 'Mileage must be less than 1,000,000,000 km'),
+    .lt(1000000000, 'Mileage must be less than 1,000,000,000 km')
+    .refine((value) => (Object.is(value, -0) ? false : true), {
+      path: ['mileage'],
+    }),
   price: z.coerce
     .number()
     .int()
@@ -82,15 +85,18 @@ export const ListingSchema = z.object({
     .lt(1000000000, 'Price must be less than 1,000,000,000 €'),
   power: z.coerce.number().int().gt(1).lt(3000),
   description: z.string().optional(),
-  // color: z.number().nullable(),
-  // first_registration: z.string().refine((value) => {
-  //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-  //   return dateRegex.test(value);
-  // }),
   first_registration: z.date(),
-  previous_owners: z.coerce.number().int().min(0).positive(),
+  previous_owners: z.coerce
+    .number()
+    .int()
+    .gte(0)
+    .lte(100)
+    .refine((value) => (Object.is(value, -0) ? false : true), {
+      path: ['previous_owners'],
+    }),
   door_count: z.coerce.number().int().gte(1).lte(9),
   seat_count: z.coerce.number().int().gte(1).lte(9),
+  color: z.number().optional(),
   // image: z
   //   .object({
   //     type: z.string(),

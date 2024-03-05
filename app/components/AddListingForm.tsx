@@ -46,6 +46,7 @@ import getCarTypes from '@/actions/getCarTypes';
 import getCondition from '@/actions/getCondition';
 import getFuelType from '@/actions/getFuelType';
 import getBrands from '@/actions/getBrands';
+import getColors from '@/actions/getColors';
 
 import { cn } from '@/lib/utils';
 import getTransmissions from '@/actions/getTransmissions';
@@ -88,21 +89,24 @@ const AddListingForm = () => {
   const [condition, setCondition] = useState<any>([]);
   const [transmission, setTransmission] = useState<any>([]);
   const [fuelType, setFuelType] = useState<any>([]);
+  const [color, setColor] = useState<any>([]);
 
   useEffect(() => {
     const fetchFormData = async () => {
       const fetchedBrands = await getBrands();
       const fetchedModels = await getModels();
       const fetchedCarTypes = await getCarTypes();
-      const fetchedCondition = await getCondition();
-      const fetchedTransmission = await getTransmissions();
-      const fetchedFuelType = await getFuelType();
+      const fetchedConditions = await getCondition();
+      const fetchedTransmissions = await getTransmissions();
+      const fetchedFuelTypes = await getFuelType();
+      const fetchedColors = await getColors();
       setBrands(fetchedBrands);
       setModels(fetchedModels);
       setCarType(fetchedCarTypes);
-      setCondition(fetchedCondition);
-      setTransmission(fetchedTransmission);
-      setFuelType(fetchedFuelType);
+      setCondition(fetchedConditions);
+      setTransmission(fetchedTransmissions);
+      setFuelType(fetchedFuelTypes);
+      setColor(fetchedColors);
     };
 
     fetchFormData();
@@ -280,7 +284,7 @@ const AddListingForm = () => {
                     disabled={isSubmitting}
                     className="text-base rounded-r-none focus-visible:ring-offset-0"
                   />
-                  <div className="text-white bg-foreground px-3 rounded-r-md grid content-center">
+                  <div className="text-white text-center w-14 bg-foreground px-3 rounded-r-md grid items-center">
                     km
                   </div>
                 </div>
@@ -305,7 +309,7 @@ const AddListingForm = () => {
                     disabled={isSubmitting}
                     className="text-base rounded-r-none focus-visible:ring-offset-0"
                   />
-                  <div className="text-white bg-foreground px-4 rounded-r-md grid content-center">
+                  <div className="text-white bg-foreground w-14 text-center rounded-r-md grid items-center">
                     €
                   </div>
                 </div>
@@ -329,8 +333,8 @@ const AddListingForm = () => {
                     disabled={isSubmitting}
                     className="text-base rounded-r-none focus-visible:ring-offset-0"
                   />
-                  <div className="text-white bg-foreground px-3 rounded-r-md grid content-center">
-                    Hp
+                  <div className="text-white text-center bg-foreground w-14 rounded-r-md grid items-center">
+                    hp
                   </div>
                 </div>
                 <FormMessage />
@@ -520,8 +524,8 @@ const AddListingForm = () => {
             control={control}
             name="first_registration"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Date of birth</FormLabel>
+              <FormItem>
+                <FormLabel>First registration</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -533,7 +537,7 @@ const AddListingForm = () => {
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'P')
+                          format(new Date(field.value), 'dd.MM.yyyy')
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -575,6 +579,37 @@ const AddListingForm = () => {
             )}
           />
         </div>
+        {/* COLOR */}
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Color</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  className="grid gap-6 grid-cols-4"
+                >
+                  {color?.map((c: any) => (
+                    <FormItem
+                      key={c.id}
+                      className="flex items-center gap-2 space-y-0"
+                    >
+                      <FormControl>
+                        <RadioGroupItem value={c.id} />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        {c.color_name}
+                      </FormLabel>
+                    </FormItem>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <SubmitBtn
           label="Create a listing"

@@ -27,7 +27,7 @@ import {
 
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
 import {
   Command,
   CommandEmpty,
@@ -37,6 +37,7 @@ import {
 } from './ui/command';
 import { Textarea } from './ui/textarea';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Calendar } from './ui/calendar';
 
 import SubmitBtn from './SubmitBtn';
 
@@ -48,6 +49,7 @@ import getBrands from '@/actions/getBrands';
 
 import { cn } from '@/lib/utils';
 import getTransmissions from '@/actions/getTransmissions';
+import { format } from 'date-fns';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -168,7 +170,7 @@ const AddListingForm = () => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="p-0">
                     <Command>
                       <CommandInput placeholder="Search brand..." />
                       <CommandEmpty>No brands found.</CommandEmpty>
@@ -228,7 +230,7 @@ const AddListingForm = () => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="p-0">
                     <Command>
                       <CommandInput placeholder="Search model..." />
                       <CommandEmpty>No models found.</CommandEmpty>
@@ -513,6 +515,48 @@ const AddListingForm = () => {
             )}
           />
 
+          {/* FIRST REGISTRATION */}
+          <FormField
+            control={control}
+            name="first_registration"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Date of birth</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-[240px] pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'P')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      captionLayout="dropdown-buttons"
+                      fromYear={1800}
+                      toYear={2025}
+                      selected={field.value}
+                      onSelect={field.onChange}
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* DESCRIPTION */}
           <FormField
             control={control}
@@ -523,7 +567,6 @@ const AddListingForm = () => {
                 <FormControl>
                   <Textarea
                     placeholder="You can write more information here"
-                    className="resize-none"
                     {...field}
                   />
                 </FormControl>

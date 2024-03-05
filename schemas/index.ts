@@ -87,6 +87,7 @@ export const ListingSchema = z.object({
   //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
   //   return dateRegex.test(value);
   // }),
+  first_registration: z.date(),
   previous_owners: z.coerce.number().int().min(0).positive(),
   door_count: z.coerce.number().int().gte(1).lte(9),
   seat_count: z.coerce.number().int().gte(1).lte(9),

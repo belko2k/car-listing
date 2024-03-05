@@ -58,32 +58,38 @@ export const ListingSchema = z.object({
   model: z.number().min(1, {
     message: 'Choose a model',
   }),
-  car_type: z.string().min(1, {
+  car_type: z.coerce.number().int().min(1, {
     message: 'Choose a car type',
   }),
   condition: z.number().min(1, {
     message: "Choose your car's condition",
   }),
-  transmission: z.string().min(1, {
+  transmission: z.coerce.number().int().min(1, {
     message: 'Choose a transmission',
   }),
-  fuel_type: z.string().min(1, {
+  fuel_type: z.coerce.number().int().min(1, {
     message: 'Choose a fuel type',
   }),
-  color: z.number().nullable(),
-  // price: z.number().positive({
-  //   message: 'Price must be a positive number',
-  // }),
-  // mileage: z.number().min(0),
-  // power: z.number().min(1),
-  // description: z.string(),
+  mileage: z.coerce
+    .number()
+    .int()
+    .gte(0)
+    .lt(1000000000, 'Mileage must be less than 1,000,000,000 km'),
+  price: z.coerce
+    .number()
+    .int()
+    .gte(1)
+    .lt(1000000000, 'Price must be less than 1,000,000,000 €'),
+  power: z.coerce.number().int().gt(1).lt(3000),
+  description: z.string().optional(),
+  // color: z.number().nullable(),
   // first_registration: z.string().refine((value) => {
   //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
   //   return dateRegex.test(value);
   // }),
-  // previous_owners: z.number().min(0),
-  // door_count: z.number().min(1),
-  // seat_count: z.number().min(1),
+  previous_owners: z.coerce.number().int().min(0).positive(),
+  door_count: z.coerce.number().int().gte(1).lte(9),
+  seat_count: z.coerce.number().int().gte(1).lte(9),
   // image: z
   //   .object({
   //     type: z.string(),

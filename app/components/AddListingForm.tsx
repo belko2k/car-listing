@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,14 +25,6 @@ import {
   SelectValue,
 } from './ui/select';
 
-import SubmitBtn from './SubmitBtn';
-
-import getModels from '@/actions/getModels';
-import getCarTypes from '@/actions/getCarTypes';
-import getCondition from '@/actions/getCondition';
-import getFuelType from '@/actions/getFuelType';
-import getBrands from '@/actions/getBrands';
-
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
 import { Check, ChevronsUpDown } from 'lucide-react';
@@ -42,9 +35,18 @@ import {
   CommandInput,
   CommandItem,
 } from './ui/command';
+import { Textarea } from './ui/textarea';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+
+import SubmitBtn from './SubmitBtn';
+
+import getModels from '@/actions/getModels';
+import getCarTypes from '@/actions/getCarTypes';
+import getCondition from '@/actions/getCondition';
+import getFuelType from '@/actions/getFuelType';
+import getBrands from '@/actions/getBrands';
 
 import { cn } from '@/lib/utils';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import getTransmissions from '@/actions/getTransmissions';
 
 const AddListingForm = () => {
@@ -54,10 +56,16 @@ const AddListingForm = () => {
       title: '',
       brand: '',
       model: 0,
-      car_type: '',
+      mileage: 0,
+      price: 0,
+      car_type: 0,
+      power: 0,
+      previous_owners: 0,
+      door_count: 0,
+      seat_count: 0,
       condition: 0,
-      transmission: '',
-      fuel_type: '',
+      transmission: 0,
+      fuel_type: 0,
     },
   });
 
@@ -134,7 +142,7 @@ const AddListingForm = () => {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 grid-flow-row gap-x-3 gap-y-5">
+        <div className="grid grid-cols-2 grid-flow-row gap-6">
           {/* BRAND */}
           <FormField
             control={control}
@@ -150,7 +158,7 @@ const AddListingForm = () => {
                         role="combobox"
                         aria-expanded={openBrand}
                         className={cn(
-                          ' justify-between',
+                          ' justify-between text-base',
                           !field.value && 'text-muted-foreground'
                         )}
                       >
@@ -210,7 +218,7 @@ const AddListingForm = () => {
                         role="combobox"
                         aria-expanded={openModel}
                         className={cn(
-                          'justify-between',
+                          'justify-between text-base',
                           !field.value && 'text-muted-foreground'
                         )}
                       >
@@ -255,6 +263,136 @@ const AddListingForm = () => {
             )}
           />
 
+          {/* MILEAGE */}
+          <FormField
+            control={control}
+            name="mileage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Mileage</FormLabel>
+                <div className="flex">
+                  <Input
+                    {...field}
+                    placeholder="Enter a price..."
+                    type="text"
+                    disabled={isSubmitting}
+                    className="text-base rounded-r-none focus-visible:ring-offset-0"
+                  />
+                  <div className="text-white bg-foreground px-3 rounded-r-md grid content-center">
+                    km
+                  </div>
+                </div>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* PRICE */}
+          <FormField
+            control={control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Price</FormLabel>
+                <div className="flex">
+                  <Input
+                    {...field}
+                    placeholder="Enter a price..."
+                    type="text"
+                    disabled={isSubmitting}
+                    className="text-base rounded-r-none focus-visible:ring-offset-0"
+                  />
+                  <div className="text-white bg-foreground px-4 rounded-r-md grid content-center">
+                    €
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* POWER */}
+          <FormField
+            control={control}
+            name="power"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Power</FormLabel>
+                <div className="flex">
+                  <Input
+                    {...field}
+                    placeholder="Enter horse power..."
+                    type="text"
+                    disabled={isSubmitting}
+                    className="text-base rounded-r-none focus-visible:ring-offset-0"
+                  />
+                  <div className="text-white bg-foreground px-3 rounded-r-md grid content-center">
+                    Hp
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* PREV. OWNERS */}
+          <FormField
+            control={control}
+            name="previous_owners"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Previous owners</FormLabel>
+                <Input
+                  {...field}
+                  placeholder="Enter number of owners"
+                  type="text"
+                  disabled={isSubmitting}
+                  className="text-base"
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Door count */}
+          <FormField
+            control={control}
+            name="door_count"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Number of doors</FormLabel>
+                <Input
+                  {...field}
+                  placeholder="Enter number of doors"
+                  type="text"
+                  disabled={isSubmitting}
+                  className="text-base"
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* SEAT count */}
+          <FormField
+            control={control}
+            name="seat_count"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Number of seats</FormLabel>
+                <Input
+                  {...field}
+                  placeholder="Enter number of seats"
+                  type="text"
+                  disabled={isSubmitting}
+                  className="text-base"
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* CAR TYPE */}
           <FormField
             control={control}
@@ -262,11 +400,7 @@ const AddListingForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Car Type</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={isSubmitting}
-                >
+                <Select onValueChange={field.onChange} disabled={isSubmitting}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a car type" />
@@ -328,7 +462,7 @@ const AddListingForm = () => {
                 <FormLabel>Transmission</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
                   disabled={isSubmitting}
                 >
                   <FormControl>
@@ -358,11 +492,7 @@ const AddListingForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Fuel Type</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={isSubmitting}
-                >
+                <Select onValueChange={field.onChange} disabled={isSubmitting}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a fuel type" />
@@ -378,6 +508,25 @@ const AddListingForm = () => {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* DESCRIPTION */}
+          <FormField
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="You can write more information here"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

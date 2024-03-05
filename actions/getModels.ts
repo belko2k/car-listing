@@ -12,7 +12,7 @@ const getModels = async () => {
     return [];
   }
 
-  return data || [];
+  return (data as any) || [];
 };
 
 export default getModels;

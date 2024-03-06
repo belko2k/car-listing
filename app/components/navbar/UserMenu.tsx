@@ -15,9 +15,8 @@ import RegisterModal from '../modals/RegisterModal';
 import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import { CheckCircle2 } from 'lucide-react';
-import { Avatar, AvatarImage } from '../ui/avatar';
-import avatar from '@/public/images/avatar.png';
+import { UserRoundCheck, UserRoundX } from 'lucide-react';
+import { Button } from '../ui/button';
 
 type UserMenuProps = {
   user: User | null;
@@ -31,9 +30,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
     const supabase = supabaseBrowser();
     await supabase.auth.signOut();
     setOpen(false);
-    toast('Logged out', {
-      icon: <CheckCircle2 className="mr-4" />,
-    });
+    toast.info('Logged out');
     router.refresh();
   };
 
@@ -44,10 +41,10 @@ const UserMenu = ({ user }: UserMenuProps) => {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage src={avatar.src} alt="user avatar" />
-        </Avatar>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">
+          {user ? <UserRoundCheck /> : <UserRoundX />}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {user ? (

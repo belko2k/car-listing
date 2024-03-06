@@ -44,7 +44,7 @@ const CarTypeField = ({
             </FormControl>
             <SelectContent>
               <SelectGroup>
-                {carType?.map((ct: any) => (
+                {carType?.map((ct) => (
                   <SelectItem key={ct.id} value={ct.id.toString()}>
                     {ct.car_type_name}
                   </SelectItem>

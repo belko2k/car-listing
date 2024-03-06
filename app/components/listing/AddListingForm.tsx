@@ -59,7 +59,6 @@ const AddListingForm = () => {
   const {
     handleSubmit,
     control,
-    getValues,
     formState: { isSubmitting },
   } = form;
 
@@ -183,10 +182,9 @@ const AddListingForm = () => {
             control={control}
             isSubmitting={isSubmitting}
           />
-
-          {/* DESCRIPTION */}
-          <DescriptioField control={control} isSubmitting={isSubmitting} />
         </div>
+        {/* DESCRIPTION */}
+        <DescriptioField control={control} isSubmitting={isSubmitting} />
 
         {/* COLOR */}
         <ColorField

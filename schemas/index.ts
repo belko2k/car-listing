@@ -61,7 +61,7 @@ export const ListingSchema = z.object({
   car_type: z.coerce.number().int().min(1, {
     message: 'Choose a car type',
   }),
-  condition: z.number().min(1, {
+  condition: z.coerce.number().int().min(1, {
     message: "Choose your car's condition",
   }),
   transmission: z.coerce.number().int().min(1, {
@@ -96,7 +96,7 @@ export const ListingSchema = z.object({
     }),
   door_count: z.coerce.number().int().gte(1).lte(9),
   seat_count: z.coerce.number().int().gte(1).lte(9),
-  color: z.number().optional(),
+  color: z.coerce.number().int().optional(),
   // image: z
   //   .object({
   //     type: z.string(),

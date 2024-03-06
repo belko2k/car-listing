@@ -30,13 +30,13 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
               onValueChange={field.onChange}
               className="grid gap-6 grid-cols-4"
             >
-              {color?.map((c: any) => (
+              {color?.map((c) => (
                 <FormItem
                   key={c.id}
                   className="flex items-center gap-2 space-y-0"
                 >
                   <FormControl>
-                    <RadioGroupItem value={c.id} />
+                    <RadioGroupItem value={c.id.toString()} />
                   </FormControl>
                   <FormLabel className="font-normal">{c.color_name}</FormLabel>
                 </FormItem>

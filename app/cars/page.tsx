@@ -1,7 +1,14 @@
-const CarsPage = () => {
+import getBrands from '@/actions/getBrands';
+
+const CarsPage = async () => {
+  const brands = await getBrands();
   return (
     <main className="">
-      <div>test</div>
+      <div>
+        {brands.map((item) => (
+          <li key={item.id}>{item.brand_name}</li>
+        ))}
+      </div>
     </main>
   );
 };

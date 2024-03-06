@@ -1,6 +1,7 @@
 import { supabaseBrowser } from '@/lib/supabase/client';
+import { Brand } from '@/types';
 
-const getBrands = async () => {
+const getBrands = async (): Promise<Brand[]> => {
   const supabase = supabaseBrowser();
   const { data, error } = await supabase.from('brand').select('*');
 

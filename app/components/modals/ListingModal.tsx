@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { ListPlus } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { useState } from 'react';
-import AddListingForm from '../AddListingForm';
+import AddListingForm from '../listing/AddListingForm';
 
 const ListingModal = () => {
   const [progress, setProgress] = useState(13);

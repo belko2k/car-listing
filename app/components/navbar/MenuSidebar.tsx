@@ -45,7 +45,7 @@ const MenuSidebar = ({ user }: MenuSidebarProps) => {
                     href={link.href}
                     className={
                       isActive(link.href)
-                        ? 'bg-neutral-200 block text-2xl rounded-lg p-2 '
+                        ? 'bg-neutral-100 block text-2xl rounded-lg p-2 font-semibold'
                         : 'text-2xl rounded-lg p-2 hover:bg-neutral-100'
                     }
                   >

@@ -29,6 +29,7 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
             <RadioGroup
               onValueChange={field.onChange}
               className="grid gap-6 grid-cols-4"
+              disabled={isSubmitting}
             >
               {color?.map((c) => (
                 <FormItem

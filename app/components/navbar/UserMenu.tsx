@@ -15,7 +15,9 @@ import RegisterModal from '../modals/RegisterModal';
 import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import { UserRoundCheck, UserRoundX } from 'lucide-react';
+import { LuUserX, LuUserCheck, LuUserPlus, LuUserCircle } from 'react-icons/lu';
+import { CiLogin, CiLogout } from 'react-icons/ci';
+
 import { Button } from '../ui/button';
 
 type UserMenuProps = {
@@ -43,7 +45,8 @@ const UserMenu = ({ user }: UserMenuProps) => {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          {user ? <UserRoundCheck /> : <UserRoundX />}
+          {user ? <LuUserCheck size={20} /> : <LuUserX size={20} />}
+          <span className="sr-only">User menu button</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -57,11 +60,19 @@ const UserMenu = ({ user }: UserMenuProps) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <MenuItem label="Profile" onClick={handleProfileRoute} />
+            <MenuItem
+              label="Profile"
+              onClick={handleProfileRoute}
+              icon={LuUserCircle}
+              iconSize={20}
+            />
 
-            <button aria-label="Log out" onClick={handleLogout}>
-              <MenuItem label="Log out" />
-            </button>
+            <MenuItem
+              label="Log out"
+              icon={CiLogout}
+              iconSize={20}
+              onClick={handleLogout}
+            />
           </>
         ) : (
           <>
@@ -70,7 +81,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
                 setOpen(false);
               }}
             >
-              <MenuItem label="Login" />
+              <MenuItem label="Login" icon={CiLogin} iconSize={20} />
             </LoginModal>
 
             <RegisterModal
@@ -78,7 +89,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
                 setOpen(false);
               }}
             >
-              <MenuItem label="Sign up" />
+              <MenuItem label="Sign up" icon={LuUserPlus} iconSize={20} />
             </RegisterModal>
           </>
         )}

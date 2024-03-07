@@ -50,6 +50,7 @@ const ModelField = ({
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
+                  disabled={isSubmitting}
                   variant="outline"
                   role="combobox"
                   aria-expanded={openModel}

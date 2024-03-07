@@ -35,6 +35,15 @@ import FuelTypeField from './form-fields/FuelTypeField';
 import FirstRegistrationField from './form-fields/FirstRegistrationField';
 import DescriptioField from './form-fields/DescriptionField';
 import ColorField from './form-fields/ColorField';
+import {
+  Brand,
+  CarType,
+  Color,
+  Condition,
+  FuelType,
+  Model,
+  Transmission,
+} from '@/types';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -62,14 +71,14 @@ const AddListingForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const [models, setModels] = useState<any>([]);
-  const [brands, setBrands] = useState<any>([]);
-  const [selectedBrand, setSelectedBrand] = useState<string>('');
-  const [carType, setCarType] = useState<any>([]);
-  const [condition, setCondition] = useState<any>([]);
-  const [transmission, setTransmission] = useState<any>([]);
-  const [fuelType, setFuelType] = useState<any>([]);
-  const [color, setColor] = useState<any>([]);
+  const [models, setModels] = useState<Model[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<number | undefined>();
+  const [carType, setCarType] = useState<CarType[]>([]);
+  const [condition, setCondition] = useState<Condition[]>([]);
+  const [transmission, setTransmission] = useState<Transmission[]>([]);
+  const [fuelType, setFuelType] = useState<FuelType[]>([]);
+  const [color, setColor] = useState<Color[]>([]);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -92,16 +101,16 @@ const AddListingForm = () => {
     fetchFormData();
   }, []);
 
-  // Function to filter models based on selected brand
-  const filteredModels = models.filter(
-    (model: any) => model.brand.id === selectedBrand
-  );
-
-  const handleBrandSelect = (brand: string) => {
+  const handleBrandSelect = (brand: number) => {
     setSelectedBrand(brand);
     // Clear model when choosing brand again
     form.setValue('model', 0);
   };
+
+  // Function to filter models based on selected brand
+  const filteredModels = models.filter(
+    (m: any) => m.brand.id === selectedBrand
+  );
 
   const onSubmit = (values: z.infer<typeof ListingSchema>) => {
     console.log('Form Submitted:', values);

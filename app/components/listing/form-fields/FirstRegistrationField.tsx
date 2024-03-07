@@ -2,6 +2,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Button } from '../../ui/button';
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -36,9 +37,10 @@ const FirstRegistrationField = ({
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
+                  disabled={isSubmitting}
                   variant={'outline'}
                   className={cn(
-                    'w-[240px] pl-3 text-left font-normal',
+                    'w-full pl-3 text-left font-normal',
                     !field.value && 'text-muted-foreground'
                   )}
                 >
@@ -62,6 +64,9 @@ const FirstRegistrationField = ({
               />
             </PopoverContent>
           </Popover>
+          <FormDescription>
+            Pick any day of the month (only month and year matter)
+          </FormDescription>
           <FormMessage />
         </FormItem>
       )}

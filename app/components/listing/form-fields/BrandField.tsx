@@ -26,7 +26,7 @@ type BrandFieldProps = {
   control: Control<z.infer<typeof ListingSchema>>;
   isSubmitting: boolean;
   brands: Brand[];
-  handleBrandSelect: (brand: string) => void;
+  handleBrandSelect: (brand: number) => void;
   form: UseFormReturn<z.infer<typeof ListingSchema>>;
 };
 

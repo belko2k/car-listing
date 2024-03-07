@@ -25,6 +25,7 @@ const DescriptioField = ({ control, isSubmitting }: DescriptionFieldProps) => {
           <FormLabel>Description</FormLabel>
           <FormControl>
             <Textarea
+              disabled={isSubmitting}
               placeholder="You can write more information here"
               {...field}
             />

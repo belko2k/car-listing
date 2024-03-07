@@ -30,7 +30,11 @@ const ConditionField = ({
         <FormItem className="space-y-3">
           <FormLabel>Condition</FormLabel>
           <FormControl>
-            <RadioGroup onValueChange={field.onChange} className="flex gap-6">
+            <RadioGroup
+              onValueChange={field.onChange}
+              disabled={isSubmitting}
+              className="flex gap-6"
+            >
               {condition?.map((c) => (
                 <FormItem
                   key={c.id}

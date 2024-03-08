@@ -6,10 +6,14 @@ import {
   FormLabel,
   FormMessage,
 } from '../../ui/form';
-import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
+import {
+  RadioGroupColor,
+  RadioGroupItemColor,
+} from '../../ui/color-radio-group';
 import { ListingSchema } from '@/schemas';
 import { Control } from 'react-hook-form';
 import { z } from 'zod';
+import { useState } from 'react';
 
 type ColorFieldProps = {
   control: Control<z.infer<typeof ListingSchema>>;
@@ -18,6 +22,8 @@ type ColorFieldProps = {
 };
 
 const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
+  const [checked, setChecked] = useState(false);
+
   return (
     <FormField
       control={control}
@@ -26,7 +32,7 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
         <FormItem className="space-y-3">
           <FormLabel>Color</FormLabel>
           <FormControl>
-            <RadioGroup
+            <RadioGroupColor
               onValueChange={field.onChange}
               className="grid gap-6 grid-cols-4"
               disabled={isSubmitting}
@@ -37,12 +43,20 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
                   className="flex items-center gap-2 space-y-0"
                 >
                   <FormControl>
-                    <RadioGroupItem value={c.id.toString()} />
+                    <RadioGroupItemColor
+                      value={c.id.toString()}
+                      style={{ backgroundColor: c.color_code }}
+                      colorName={c.color_name}
+                      checked={checked}
+                      onClick={() => setChecked(!checked)}
+                    />
                   </FormControl>
-                  <FormLabel className="font-normal">{c.color_name}</FormLabel>
+                  <FormLabel className="font-normal cursor-pointer">
+                    {c.color_name}
+                  </FormLabel>
                 </FormItem>
               ))}
-            </RadioGroup>
+            </RadioGroupColor>
           </FormControl>
           <FormMessage />
         </FormItem>

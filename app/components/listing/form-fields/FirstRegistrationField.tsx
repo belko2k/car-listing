@@ -40,7 +40,7 @@ const FirstRegistrationField = ({
                   disabled={isSubmitting}
                   variant={'outline'}
                   className={cn(
-                    'w-full pl-3 text-left font-normal',
+                    'w-full pl-3 text-left text-base font-normal',
                     !field.value && 'text-muted-foreground'
                   )}
                 >
@@ -53,7 +53,7 @@ const FirstRegistrationField = ({
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className="w-auto p-0 " align="start">
               <Calendar
                 mode="single"
                 captionLayout="dropdown-buttons"

@@ -112,7 +112,8 @@ const AddListingForm = () => {
     (m: any) => m.brand.id === selectedBrand
   );
 
-  const onSubmit = (values: z.infer<typeof ListingSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ListingSchema>) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log('Form Submitted:', values);
   };
 

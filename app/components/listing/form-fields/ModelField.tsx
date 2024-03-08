@@ -22,6 +22,7 @@ import { Control, UseFormReturn } from 'react-hook-form';
 import { ListingSchema } from '@/schemas';
 import { useState } from 'react';
 import { Model } from '@/types';
+import { ScrollArea } from '../../ui/scroll-area';
 
 type ModelFieldProps = {
   control: Control<z.infer<typeof ListingSchema>>;
@@ -46,7 +47,7 @@ const ModelField = ({
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>Model</FormLabel>
-          <Popover open={openModel} onOpenChange={setOpenModel}>
+          <Popover open={openModel} onOpenChange={setOpenModel} modal>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
@@ -65,31 +66,33 @@ const ModelField = ({
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="p-0">
+            <PopoverContent className="p-0 popover-content-width-same-as-its-trigger">
               <Command>
                 <CommandInput placeholder="Search model..." />
                 <CommandEmpty>No models found.</CommandEmpty>
-                <CommandGroup>
-                  {filteredModels?.map((m) => (
-                    <CommandItem
-                      value={m.model_name}
-                      key={m.id}
-                      onSelect={() => {
-                        form.setValue('model', m.id);
-                        setSelectedModelName(m.model_name);
-                        setOpenModel(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          m.id === field.value ? 'opacity-100' : 'opacity-0'
-                        )}
-                      />
-                      {m.model_name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                <ScrollArea className="h-[10rem]">
+                  <CommandGroup>
+                    {filteredModels?.map((m) => (
+                      <CommandItem
+                        value={m.model_name}
+                        key={m.id}
+                        onSelect={() => {
+                          form.setValue('model', m.id);
+                          setSelectedModelName(m.model_name);
+                          setOpenModel(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            m.id === field.value ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        {m.model_name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </ScrollArea>
               </Command>
             </PopoverContent>
           </Popover>

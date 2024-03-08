@@ -36,11 +36,7 @@ const TransmissionField = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>Transmission</FormLabel>
-          <Select
-            onValueChange={field.onChange}
-            // defaultValue={field.value}
-            disabled={isSubmitting}
-          >
+          <Select onValueChange={field.onChange} disabled={isSubmitting}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder="Select a transmission" />

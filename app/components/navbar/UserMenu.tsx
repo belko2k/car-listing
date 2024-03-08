@@ -17,6 +17,7 @@ import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { LuUserX, LuUserCheck, LuUserPlus, LuUserCircle } from 'react-icons/lu';
 import { CiLogin, CiLogout } from 'react-icons/ci';
+import { FaHeart } from 'react-icons/fa';
 
 import { Button } from '../ui/button';
 
@@ -36,8 +37,8 @@ const UserMenu = ({ user }: UserMenuProps) => {
     router.refresh();
   };
 
-  const handleProfileRoute = () => {
-    router.push('/profile');
+  const handleRoute = (route: string) => {
+    router.push(`/${route}`);
     setOpen(false);
   };
 
@@ -62,9 +63,15 @@ const UserMenu = ({ user }: UserMenuProps) => {
 
             <MenuItem
               label="Profile"
-              onClick={handleProfileRoute}
+              onClick={() => handleRoute('profile')}
               icon={LuUserCircle}
               iconSize={20}
+            />
+            <MenuItem
+              label="Favorites"
+              icon={FaHeart}
+              iconSize={20}
+              onClick={() => handleRoute('favorites')}
             />
 
             <MenuItem

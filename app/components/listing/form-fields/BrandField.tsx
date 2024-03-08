@@ -21,6 +21,7 @@ import { ListingSchema } from '@/schemas';
 import { Control, UseFormReturn } from 'react-hook-form';
 import { Brand } from '@/types';
 import { useState } from 'react';
+import { ScrollArea } from '../../ui/scroll-area';
 
 type BrandFieldProps = {
   control: Control<z.infer<typeof ListingSchema>>;
@@ -46,7 +47,7 @@ const BrandField = ({
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>Brand</FormLabel>
-          <Popover open={openBrand} onOpenChange={setOpenBrand}>
+          <Popover open={openBrand} onOpenChange={setOpenBrand} modal>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
@@ -65,31 +66,33 @@ const BrandField = ({
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="p-0">
+            <PopoverContent className="p-0 popover-content-width-same-as-its-trigger">
               <Command>
                 <CommandInput placeholder="Search brand..." />
                 <CommandEmpty>No brands found.</CommandEmpty>
-                <CommandGroup>
-                  {brands?.map((b: any) => (
-                    <CommandItem
-                      value={b.brand_name}
-                      key={b.id}
-                      onSelect={() => {
-                        form.setValue('brand', b.brand_name);
-                        handleBrandSelect(b.id);
-                        setOpenBrand(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          b.id === field.value ? 'opacity-100' : 'opacity-0'
-                        )}
-                      />
-                      {b.brand_name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                <ScrollArea className="h-[10rem]">
+                  <CommandGroup>
+                    {brands?.map((b: any) => (
+                      <CommandItem
+                        value={b.brand_name}
+                        key={b.id}
+                        onSelect={() => {
+                          form.setValue('brand', b.brand_name);
+                          handleBrandSelect(b.id);
+                          setOpenBrand(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            b.id === field.value ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        {b.brand_name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </ScrollArea>
               </Command>
             </PopoverContent>
           </Popover>

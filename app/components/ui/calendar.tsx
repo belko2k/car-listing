@@ -31,7 +31,7 @@ function Calendar({
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
         caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium hidden',
+        caption_label: 'text-base font-medium hidden',
         caption_dropdowns: 'flex justify-center gap-1',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
@@ -45,7 +45,7 @@ function Calendar({
         head_cell:
           'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
         row: 'flex w-full mt-2',
-        cell: 'text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+        cell: 'text-center text-base p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
         day: cn(
           buttonVariants({ variant: 'ghost' }),
           'h-9 w-9 p-0 font-normal aria-selected:opacity-100'
@@ -79,7 +79,7 @@ function Calendar({
                 handleChange(value);
               }}
             >
-              <SelectTrigger className="pr-1.5 focus:ring-0">
+              <SelectTrigger className="pr-1.5 focus:ring-0 text-sm ">
                 <SelectValue>{selected?.props?.children}</SelectValue>
               </SelectTrigger>
               <SelectContent position="popper">
@@ -88,6 +88,7 @@ function Calendar({
                     <SelectItem
                       key={`${option.props.value}-${id}`}
                       value={option.props.value?.toString() ?? ''}
+                      className="text-sm "
                     >
                       {option.props.children}
                     </SelectItem>

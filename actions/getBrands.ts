@@ -3,8 +3,10 @@ import { Brand } from '@/types';
 
 const getBrands = async (): Promise<Brand[]> => {
   const supabase = supabaseBrowser();
-  const { data, error } = await supabase.from('brand').select('*');
-
+  const { data, error } = await supabase
+    .from('brand')
+    .select('id, brand_name')
+    .order('brand_name', { ascending: true });
   if (error) {
     console.log('Error fetching brands: ', error.message);
   }

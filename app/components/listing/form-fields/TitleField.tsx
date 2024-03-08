@@ -23,7 +23,6 @@ const TitleField = ({ control, isSubmitting }: TitleFieldProps) => {
             type="text"
             disabled={isSubmitting}
             className="text-base"
-            defaultValue=""
           />
           <FormMessage />
         </FormItem>

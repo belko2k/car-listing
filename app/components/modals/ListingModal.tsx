@@ -22,7 +22,7 @@ const ListingModal = () => {
           <ListPlus />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[40rem]">
+      <DialogContent className="max-w-[45rem]">
         <DialogTitle>List your car</DialogTitle>
 
         <Progress value={progress} />

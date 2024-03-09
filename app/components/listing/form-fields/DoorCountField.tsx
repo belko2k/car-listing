@@ -20,7 +20,7 @@ const DoorCountField = ({ control, isSubmitting }: DoorCountFieldProps) => {
           <Input
             {...field}
             placeholder="Enter number of doors"
-            type="text"
+            type="number"
             disabled={isSubmitting}
             className="text-base"
           />

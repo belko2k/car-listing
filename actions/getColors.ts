@@ -5,7 +5,7 @@ const getColors = async () => {
   const { data, error } = await supabase
     .from('color')
     .select('id, color_name, color_code')
-    .order('color_name', { ascending: true });
+    .order('id', { ascending: true });
   if (error) {
     console.log(error.message);
   }

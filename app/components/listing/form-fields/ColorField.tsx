@@ -43,7 +43,7 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
                   <FormControl>
                     <RadioGroupItemColor
                       value={c.id.toString()}
-                      style={{ backgroundColor: c.color_code }}
+                      style={{ background: c.color_code }}
                       colorName={c.color_name}
                     />
                   </FormControl>

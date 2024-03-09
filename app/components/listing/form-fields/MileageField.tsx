@@ -21,7 +21,7 @@ const MileageField = ({ control, isSubmitting }: MileageFieldProps) => {
           <div className="flex">
             <Input
               {...field}
-              placeholder="Enter a price..."
+              placeholder="Enter a mileage..."
               type="number"
               disabled={isSubmitting}
               className="text-base rounded-r-none focus-visible:ring-offset-0"

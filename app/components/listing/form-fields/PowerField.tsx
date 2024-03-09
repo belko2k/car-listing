@@ -22,7 +22,7 @@ const PowerField = ({ control, isSubmitting }: PowerFieldProps) => {
             <Input
               {...field}
               placeholder="Enter horse power..."
-              type="text"
+              type="number"
               disabled={isSubmitting}
               className="text-base rounded-r-none focus-visible:ring-offset-0"
             />

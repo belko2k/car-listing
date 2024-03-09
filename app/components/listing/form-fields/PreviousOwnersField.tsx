@@ -23,7 +23,7 @@ const PreviousOwnersField = ({
           <Input
             {...field}
             placeholder="Enter number of owners"
-            type="text"
+            type="number"
             disabled={isSubmitting}
             className="text-base"
           />

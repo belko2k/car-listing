@@ -80,14 +80,7 @@ export const ListingSchema = z.object({
   price: z.coerce
     .number()
     .gte(1)
-    .lt(1000000000, 'Price must be less than 1,000,000,000 €')
-    .refine((value) => {
-      if (typeof value !== 'number') {
-        throw new Error('Expected number for price.');
-      }
-      return true;
-    }),
-
+    .lt(1000000000, 'Price must be less than 1,000,000,000 €'),
   power: z.coerce.number().int().gt(1).lt(3000),
   description: z.string().optional(),
   first_registration: z.date(),

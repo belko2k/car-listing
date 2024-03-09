@@ -20,7 +20,7 @@ const SeatCountField = ({ control, isSubmitting }: SeatCountFieldProps) => {
           <Input
             {...field}
             placeholder="Enter number of seats"
-            type="text"
+            type="number"
             disabled={isSubmitting}
             className="text-base"
           />

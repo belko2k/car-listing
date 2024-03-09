@@ -22,8 +22,6 @@ type ColorFieldProps = {
 };
 
 const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
-  const [checked, setChecked] = useState(false);
-
   return (
     <FormField
       control={control}
@@ -47,8 +45,6 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
                       value={c.id.toString()}
                       style={{ backgroundColor: c.color_code }}
                       colorName={c.color_name}
-                      checked={checked}
-                      onClick={() => setChecked(!checked)}
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">

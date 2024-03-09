@@ -9,17 +9,36 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
+
+import { Button } from '../ui/button';
+
 import MenuItem from './MenuItem';
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import { LuUserX, LuUserCheck, LuUserPlus, LuUserCircle } from 'react-icons/lu';
-import { CiLogin, CiLogout } from 'react-icons/ci';
+import {
+  LuUserX,
+  LuUserCheck,
+  LuUserPlus,
+  LuUserCircle,
+  LuLogIn,
+} from 'react-icons/lu';
+import { CiLogout } from 'react-icons/ci';
 import { FaHeart } from 'react-icons/fa';
-
-import { Button } from '../ui/button';
 
 type UserMenuProps = {
   user: User | null;
@@ -74,12 +93,28 @@ const UserMenu = ({ user }: UserMenuProps) => {
               onClick={() => handleRoute('favorites')}
             />
 
-            <MenuItem
-              label="Log out"
-              icon={CiLogout}
-              iconSize={20}
-              onClick={handleLogout}
-            />
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <MenuItem label="Log out" icon={CiLogout} iconSize={20} />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to log out?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. YOu will be logged out of your
+                    account after.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleLogout}>
+                    Log Out
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </>
         ) : (
           <>
@@ -88,7 +123,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
                 setOpen(false);
               }}
             >
-              <MenuItem label="Login" icon={CiLogin} iconSize={20} />
+              <MenuItem label="Login" icon={LuLogIn} iconSize={20} />
             </LoginModal>
 
             <RegisterModal

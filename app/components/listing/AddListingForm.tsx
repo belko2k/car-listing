@@ -53,7 +53,7 @@ const AddListingForm = () => {
       brand: '',
       model: 0,
       mileage: 0,
-      price: 0,
+
       car_type: 0,
       power: 0,
       previous_owners: 0,

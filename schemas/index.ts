@@ -72,7 +72,6 @@ export const ListingSchema = z.object({
   }),
   mileage: z.coerce
     .number()
-    .int()
     .gte(0)
     .lt(1000000000, 'Mileage must be less than 1,000,000,000 km')
     .refine((value) => (Object.is(value, -0) ? false : true), {
@@ -80,9 +79,15 @@ export const ListingSchema = z.object({
     }),
   price: z.coerce
     .number()
-    .int()
     .gte(1)
-    .lt(1000000000, 'Price must be less than 1,000,000,000 €'),
+    .lt(1000000000, 'Price must be less than 1,000,000,000 €')
+    .refine((value) => {
+      if (typeof value !== 'number') {
+        throw new Error('Expected number for price.');
+      }
+      return true;
+    }),
+
   power: z.coerce.number().int().gt(1).lt(3000),
   description: z.string().optional(),
   first_registration: z.date(),

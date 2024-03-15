@@ -12,16 +12,14 @@ import { ListPlus } from 'lucide-react';
 import { Progress } from '../ui/progress';
 import { useState } from 'react';
 import AddListingForm from '../listing/AddListingForm';
+import { useListingModal } from '@/store/use-listing-modal';
 
 const ListingModal = () => {
   const [progress, setProgress] = useState(13);
+  const listingModal = useListingModal();
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          <ListPlus />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={listingModal.isOpen} onOpenChange={listingModal.close}>
       <DialogContent className="max-w-[45rem]">
         <DialogTitle>List your car</DialogTitle>
 

@@ -4,15 +4,13 @@ import { ListPlus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 
-const AddListingBtn = () => {
-  const router = useRouter();
+type Props = {
+  onClick: () => void;
+};
 
-  const handleRoute = () => {
-    router.push('/login');
-  };
-
+const AddListingBtn = ({ onClick }: Props) => {
   return (
-    <Button onClick={handleRoute} className="gap-3 text-xl">
+    <Button onClick={onClick} className="gap-3 text-xl">
       <ListPlus />
     </Button>
   );

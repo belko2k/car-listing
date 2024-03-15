@@ -21,7 +21,7 @@ const PriceField = ({ control, isSubmitting }: PriceFieldProps) => {
           <div className="flex">
             <Input
               {...field}
-              placeholder="Enter a price..."
+              placeholder="Enter price..."
               type="number"
               disabled={isSubmitting}
               className="text-base rounded-r-none focus-visible:ring-offset-0"

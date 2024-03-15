@@ -4,7 +4,12 @@ const getModels = async () => {
   const supabase = supabaseBrowser();
   const { data, error } = await supabase
     .from('model')
-    .select(`id, model_name, brand:brand_id (brand_name, id))`)
+    .select(
+      `
+    *,
+    brand(*)
+    `
+    )
     .order('model_name', { ascending: true });
 
   if (error) {
@@ -12,7 +17,7 @@ const getModels = async () => {
     return [];
   }
 
-  return (data as any) || [];
+  return data || [];
 };
 
 export default getModels;

@@ -1,12 +1,14 @@
+'use client';
+
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '../ui/sheet';
 import { links } from '@/lib/constants';
 import Link from 'next/link';
 import { AiOutlineMenu } from 'react-icons/ai';
-import ListingModal from '../modals/ListingModal';
 import AddListingBtn from './AddListingBtn';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { twMerge } from 'tailwind-merge';
+import { useListingModal } from '@/store/use-listing-modal';
 
 type MenuSidebarProps = {
   user: User | null;
@@ -15,6 +17,17 @@ type MenuSidebarProps = {
 const MenuSidebar = ({ user }: MenuSidebarProps) => {
   const pathname = usePathname();
   const isActive = (path: string) => path === pathname;
+
+  const { open } = useListingModal();
+  const router = useRouter();
+
+  const toggleListingModal = () => {
+    if (user) {
+      open();
+    } else {
+      router.push('/login');
+    }
+  };
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -36,7 +49,7 @@ const MenuSidebar = ({ user }: MenuSidebarProps) => {
           <AiOutlineMenu />
         </div>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[18rem]">
+      <SheetContent side="left">
         <nav className="mt-10">
           <ul className="grid gap-4">
             {links.map((link) => {
@@ -47,7 +60,7 @@ const MenuSidebar = ({ user }: MenuSidebarProps) => {
                     <Link
                       href={href}
                       className={twMerge(
-                        'text-2xl rounded-lg p-2 flex items-center gap-3',
+                        'text-2xl rounded-lg p-2 flex items-center gap-5',
                         isActive(link.href)
                           ? 'bg-neutral-100 font-semibold'
                           : 'hover:bg-neutral-100'
@@ -61,7 +74,7 @@ const MenuSidebar = ({ user }: MenuSidebarProps) => {
               );
             })}
 
-            {user ? <ListingModal /> : <AddListingBtn />}
+            <AddListingBtn onClick={toggleListingModal} />
           </ul>
         </nav>
       </SheetContent>

@@ -1,6 +1,14 @@
 import * as z from 'zod';
 
-const bytesToMB = (bytes: number) => bytes / (1024 * 1024);
+const MAX_FILE_SIZE = 1024 * 1024 * 5;
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+];
+
+const ACCEPTED_IMAGE_TYPES = ['jpeg', 'jpg', 'png', 'webp'];
 
 export const LoginSchema = z.object({
   email: z.string().email({
@@ -52,7 +60,7 @@ export const ListingSchema = z.object({
   title: z.string().min(1, {
     message: 'Title is required',
   }),
-  brand: z.string().min(1, {
+  brand: z.number().min(1, {
     message: 'Choose a brand',
   }),
   model: z.number().min(1, {
@@ -95,22 +103,12 @@ export const ListingSchema = z.object({
   door_count: z.coerce.number().int().gte(1).lte(9),
   seat_count: z.coerce.number().int().gte(1).lte(9),
   color: z.coerce.number().int().optional(),
-  // image: z
-  //   .object({
-  //     type: z.string(),
-  //     size: z.number(),
-  //   })
-  //   .refine(
-  //     (file) =>
-  //       file?.type &&
-  //       (file.type === 'image/jpeg' ||
-  //         file.type === 'image/png' ||
-  //         file.type === 'image/jpg' ||
-  //         file.type === 'image/webp'),
-  //     'Only JPEG, PNG, JPG, or WEBP images are allowed'
-  //   )
-  //   .refine(
-  //     (file) => file?.size && bytesToMB(file.size) <= 7,
-  //     'Image must be less than 7 MB'
-  //   ),
+  image: z.any(),
+  // .refine((files) => {
+  //   return files?.[0]?.size <= MAX_FILE_SIZE;
+  // }, `Max image size is 5MB.`)
+  // .refine(
+  //   (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+  //   'Only .jpg, .jpeg, .png and .webp formats are supported.'
+  // ),
 });

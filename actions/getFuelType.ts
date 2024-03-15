@@ -9,7 +9,7 @@ const getFuelType = async () => {
   if (error) {
     console.log(error.message);
   }
-  return (data as any) || [];
+  return data || [];
 };
 
 export default getFuelType;

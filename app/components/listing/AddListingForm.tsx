@@ -2,11 +2,13 @@
 
 import * as z from 'zod';
 
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect, useCallback } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { Form } from '../ui/form';
 import SubmitBtn from '../SubmitBtn';
+
+import Dropzone from 'react-dropzone';
 
 import { ListingSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -44,13 +46,14 @@ import {
   Model,
   Transmission,
 } from '@/types';
+import Image from 'next/image';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
     resolver: zodResolver(ListingSchema),
     defaultValues: {
       title: '',
-      brand: '',
+      brand: 0,
       model: 0,
       mileage: 0,
       price: 0,
@@ -62,6 +65,7 @@ const AddListingForm = () => {
       condition: 0,
       transmission: 0,
       fuel_type: 0,
+      image: undefined,
     },
   });
 
@@ -79,6 +83,12 @@ const AddListingForm = () => {
   const [transmission, setTransmission] = useState<Transmission[]>([]);
   const [fuelType, setFuelType] = useState<FuelType[]>([]);
   const [color, setColor] = useState<Color[]>([]);
+
+  const [myFiles, setMyFiles] = useState<(File & { preview: string })[]>([]);
+  const removeAll = () => {
+    setMyFiles([]);
+    form.setValue('image', undefined);
+  };
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -108,9 +118,7 @@ const AddListingForm = () => {
   };
 
   // Function to filter models based on selected brand
-  const filteredModels = models.filter(
-    (m: any) => m.brand.id === selectedBrand
-  );
+  const filteredModels = models.filter((m) => m.brand_id === selectedBrand);
 
   const onSubmit = async (values: z.infer<typeof ListingSchema>) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -121,9 +129,7 @@ const AddListingForm = () => {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* TITLE */}
-
         <TitleField control={control} isSubmitting={isSubmitting} />
-
         <div className="grid grid-cols-2 grid-flow-row gap-6">
           {/* BRAND */}
           <BrandField
@@ -166,6 +172,7 @@ const AddListingForm = () => {
             carType={carType}
             isSubmitting={isSubmitting}
           />
+
           {/* CONDITION */}
           <ConditionField
             control={control}
@@ -195,12 +202,87 @@ const AddListingForm = () => {
         </div>
         {/* DESCRIPTION */}
         <DescriptioField control={control} isSubmitting={isSubmitting} />
-
         {/* COLOR */}
         <ColorField
           control={control}
           color={color}
           isSubmitting={isSubmitting}
+        />
+        <Controller
+          control={control}
+          name="image"
+          rules={{
+            required: { value: true, message: 'This field is required' },
+          }}
+          render={({ field: { onChange, onBlur }, fieldState }) => (
+            <Dropzone
+              multiple
+              noClick
+              maxSize={7242880}
+              accept={{
+                'image/jpeg': [],
+                'image/png': [],
+              }}
+              onDrop={(acceptedFiles) => {
+                form.setValue('image', acceptedFiles as unknown as FileList, {
+                  shouldValidate: true,
+                });
+                setMyFiles(
+                  acceptedFiles.map((file) =>
+                    Object.assign(file, { preview: URL.createObjectURL(file) })
+                  )
+                );
+              }}
+            >
+              {({
+                getRootProps,
+                getInputProps,
+                open,
+                isDragActive,
+                acceptedFiles,
+              }) => (
+                <>
+                  <div>
+                    <div {...getRootProps()}>
+                      <input
+                        {...getInputProps({
+                          id: 'spreadsheet',
+                          onChange,
+                          onBlur,
+                        })}
+                      />
+
+                      <p>
+                        <button type="button" onClick={open}>
+                          Choose a file
+                        </button>
+                        or drag and drop
+                      </p>
+
+                      {myFiles.length
+                        ? myFiles.map((file) => (
+                            <li key={file.name}>
+                              <img src={file.preview} alt={file.name} />
+                              {file.name} - {file.size} bytes
+                            </li>
+                          ))
+                        : 'No file selected.'}
+
+                      <div>
+                        {fieldState.error && (
+                          <span role="alert">{fieldState.error.message}</span>
+                        )}
+                      </div>
+                      {myFiles.length > 0 && (
+                        <button onClick={removeAll}>Remove All</button>
+                      )}
+                    </div>
+                  </div>
+                  <div></div>
+                </>
+              )}
+            </Dropzone>
+          )}
         />
 
         <SubmitBtn

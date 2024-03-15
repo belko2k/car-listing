@@ -6,16 +6,28 @@ import Wrapper from '../Wrapper';
 import UserMenu from './UserMenu';
 import Image from 'next/image';
 import logoLight from '@/public/images/logo-light.png';
-import AddListingBtn from './AddListingBtn';
-import ListingModal from '../modals/ListingModal';
 import MenuSidebar from './MenuSidebar';
 import { User } from '@supabase/supabase-js';
+import { useListingModal } from '@/store/use-listing-modal';
+import { useRouter } from 'next/navigation';
+import AddListingBtn from './AddListingBtn';
 
 type NavbarProps = {
   user: User | null;
 };
 
 const Navbar = ({ user }: NavbarProps) => {
+  const { open } = useListingModal();
+  const router = useRouter();
+
+  const toggleListingModal = () => {
+    if (user) {
+      open();
+    } else {
+      router.push('/login');
+    }
+  };
+
   return (
     <header className="shadow-md bg-white">
       <Wrapper>
@@ -40,7 +52,7 @@ const Navbar = ({ user }: NavbarProps) => {
           <div className="flex gap-6 items-center">
             <div className="hidden sm:block">
               <nav className="flex gap-6 items-center">
-                {user ? <ListingModal /> : <AddListingBtn />}
+                <AddListingBtn onClick={toggleListingModal} />
                 <ul className="flex gap-4">
                   {links.map((link) => (
                     <li key={link.name}>

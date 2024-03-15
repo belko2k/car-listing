@@ -1,4 +1,5 @@
 import { supabaseServer } from '@/lib/supabase/server';
+import Wrapper from '../components/Wrapper';
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -15,12 +16,12 @@ export default async function Home() {
   // console.log(getUser2);
 
   return (
-    <div>
+    <Wrapper>
       <h1>HOME</h1>
 
       <p>Usergetuser: {getUserEmail}</p>
 
       <p>User metadata address: {getUserMeta}</p>
-    </div>
+    </Wrapper>
   );
 }

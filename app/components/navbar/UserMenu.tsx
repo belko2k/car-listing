@@ -25,8 +25,6 @@ import {
 import { Button } from '../ui/button';
 
 import MenuItem from './MenuItem';
-import LoginModal from '../modals/LoginModal';
-import RegisterModal from '../modals/RegisterModal';
 import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
@@ -39,30 +37,44 @@ import {
 } from 'react-icons/lu';
 import { CiLogout } from 'react-icons/ci';
 import { FaHeart } from 'react-icons/fa';
+import { useLoginModal } from '@/store/use-login-modal';
+import { useRegisterModal } from '@/store/use-register-modal';
 
 type UserMenuProps = {
   user: User | null;
 };
 
 const UserMenu = ({ user }: UserMenuProps) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+
   const router = useRouter();
 
   const handleLogout = async () => {
     const supabase = supabaseBrowser();
     await supabase.auth.signOut();
-    setOpen(false);
+    setIsOpen(false);
     toast.info('Logged out');
     router.refresh();
   };
 
+  const toggleLoginModal = () => {
+    setIsOpen(false);
+    loginModal.open();
+  };
+  const toggleRegisterModal = () => {
+    setIsOpen(false);
+    registerModal.open();
+  };
+
   const handleRoute = (route: string) => {
     router.push(`/${route}`);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           {user ? <LuUserCheck size={20} /> : <LuUserX size={20} />}
@@ -118,21 +130,19 @@ const UserMenu = ({ user }: UserMenuProps) => {
           </>
         ) : (
           <>
-            <LoginModal
-              onClose={() => {
-                setOpen(false);
-              }}
-            >
-              <MenuItem label="Login" icon={LuLogIn} iconSize={20} />
-            </LoginModal>
+            <MenuItem
+              label="Login"
+              icon={LuLogIn}
+              iconSize={20}
+              onClick={toggleLoginModal}
+            />
 
-            <RegisterModal
-              onClose={() => {
-                setOpen(false);
-              }}
-            >
-              <MenuItem label="Sign up" icon={LuUserPlus} iconSize={20} />
-            </RegisterModal>
+            <MenuItem
+              label="Sign up"
+              icon={LuUserPlus}
+              iconSize={20}
+              onClick={toggleRegisterModal}
+            />
           </>
         )}
       </DropdownMenuContent>

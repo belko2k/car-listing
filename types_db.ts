@@ -11,93 +11,78 @@ export type Database = {
     Tables: {
       brand: {
         Row: {
-          brand_name: string | null
-          created_at: string
+          brand_name: string
           id: number
         }
         Insert: {
-          brand_name?: string | null
-          created_at?: string
+          brand_name: string
           id?: number
         }
         Update: {
-          brand_name?: string | null
-          created_at?: string
+          brand_name?: string
           id?: number
         }
         Relationships: []
       }
       car_type: {
         Row: {
-          car_type_name: string | null
-          created_at: string
+          car_type_name: string
           id: number
         }
         Insert: {
-          car_type_name?: string | null
-          created_at?: string
+          car_type_name: string
           id?: number
         }
         Update: {
-          car_type_name?: string | null
-          created_at?: string
+          car_type_name?: string
           id?: number
         }
         Relationships: []
       }
       color: {
         Row: {
-          color_code: string | null
-          color_name: string | null
-          created_at: string
+          color_code: string
+          color_name: string
           id: number
         }
         Insert: {
-          color_code?: string | null
-          color_name?: string | null
-          created_at?: string
+          color_code: string
+          color_name: string
           id?: number
         }
         Update: {
-          color_code?: string | null
-          color_name?: string | null
-          created_at?: string
+          color_code?: string
+          color_name?: string
           id?: number
         }
         Relationships: []
       }
       condition: {
         Row: {
-          condition_type: string | null
-          created_at: string
+          condition_type: string
           id: number
         }
         Insert: {
-          condition_type?: string | null
-          created_at?: string
+          condition_type: string
           id?: number
         }
         Update: {
-          condition_type?: string | null
-          created_at?: string
+          condition_type?: string
           id?: number
         }
         Relationships: []
       }
       fuel_type: {
         Row: {
-          created_at: string
-          fuel_type_name: string | null
+          fuel_type_name: string
           id: number
         }
         Insert: {
-          created_at?: string
-          fuel_type_name?: string | null
+          fuel_type_name: string
           id?: number
         }
         Update: {
-          created_at?: string
-          fuel_type_name?: string | null
+          fuel_type_name?: string
           id?: number
         }
         Relationships: []
@@ -223,20 +208,17 @@ export type Database = {
       }
       model: {
         Row: {
-          brand_id: number | null
-          created_at: string
+          brand_id: number
           id: number
           model_name: string
         }
         Insert: {
-          brand_id?: number | null
-          created_at?: string
+          brand_id: number
           id?: number
           model_name: string
         }
         Update: {
-          brand_id?: number | null
-          created_at?: string
+          brand_id?: number
           id?: number
           model_name?: string
         }
@@ -281,19 +263,16 @@ export type Database = {
       }
       transmission: {
         Row: {
-          created_at: string
           id: number
-          transmission_type: string | null
+          transmission_type: string
         }
         Insert: {
-          created_at?: string
           id?: number
-          transmission_type?: string | null
+          transmission_type: string
         }
         Update: {
-          created_at?: string
           id?: number
-          transmission_type?: string | null
+          transmission_type?: string
         }
         Relationships: []
       }

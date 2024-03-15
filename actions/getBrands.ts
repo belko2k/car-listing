@@ -11,7 +11,7 @@ const getBrands = async (): Promise<Brand[]> => {
     console.log('Error fetching brands: ', error.message);
   }
 
-  return (data as any) || [];
+  return data || [];
 };
 
 export default getBrands;

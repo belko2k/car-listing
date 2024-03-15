@@ -1,67 +1,52 @@
-import React, { useState } from 'react';
+'use client';
+
 import RegisterForm from '../auth/RegisterForm';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger,
 } from '../ui/dialog';
 import { Separator } from '../ui/separator';
-import Link from 'next/link';
 import Social from '../auth/Social';
 import { useRouter } from 'next/navigation';
+import { useLoginModal } from '@/store/use-login-modal';
+import { useRegisterModal } from '@/store/use-register-modal';
 
-type RegisterModalProps = {
-  onClose: () => void;
-  children?: React.ReactNode;
+const RegisterModal = () => {
+  const router = useRouter();
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+
+  const onToggle = () => {
+    registerModal.close();
+    loginModal.open();
+  };
+
+  const handleRegisterSuccess = () => {
+    registerModal.close();
+    router.push('/');
+    router.refresh();
+  };
+
+  return (
+    <Dialog open={registerModal.isOpen} onOpenChange={registerModal.close}>
+      <DialogContent>
+        <DialogTitle>Sign Up</DialogTitle>
+        <DialogDescription>Create an account</DialogDescription>
+        <Separator />
+        <RegisterForm onRegisterSuccess={handleRegisterSuccess} />
+        <Separator />
+        {/* <Social google="Register with Google" /> */}
+        <p
+          onClick={onToggle}
+          className="text-center hover:underline hover:underline-offset-[6px] cursor-pointer"
+        >
+          Already have an account?
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
 };
-
-const RegisterModal = React.forwardRef(
-  ({ onClose, children }: RegisterModalProps, ref) => {
-    const [open, setOpen] = useState(false);
-    const router = useRouter();
-
-    const handleRegisterSuccess = () => {
-      // setOpen(false); // Close the dialog
-      // onClose(); // Call onClose to notify parent component
-      // router.push('/');
-      // router.refresh();
-    };
-
-    return (
-      <Dialog
-        open={open}
-        onOpenChange={(newOpenState) => {
-          setOpen(newOpenState);
-          if (!newOpenState) {
-            onClose();
-          }
-        }}
-      >
-        <DialogTrigger>{children}</DialogTrigger>
-        <DialogContent>
-          <DialogTitle>Sign Up</DialogTitle>
-          <DialogDescription>Create an account</DialogDescription>
-          <Separator />
-          <RegisterForm onRegisterSuccess={handleRegisterSuccess} />
-          <Separator />
-          {/* <Social google="Register with Google" /> */}
-          <Link
-            href="/login"
-            onClick={() => {
-              onClose();
-            }}
-            className="text-center hover:underline hover:underline-offset-[6px]"
-          >
-            Already have an account?
-          </Link>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-);
-
-RegisterModal.displayName = 'RegisterModal';
 
 export default RegisterModal;

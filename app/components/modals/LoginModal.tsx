@@ -1,67 +1,52 @@
-import React, { useState } from 'react';
+'use client';
+
 import LoginForm from '../auth/LoginForm';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger,
 } from '../ui/dialog';
 import { Separator } from '../ui/separator';
 import Social from '../auth/Social';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useLoginModal } from '@/store/use-login-modal';
+import { useRegisterModal } from '@/store/use-register-modal';
 
-type LoginModalProps = {
-  onClose: () => void;
-  children?: React.ReactNode;
+const LoginModal = () => {
+  const router = useRouter();
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+
+  const handleLoginSuccess = () => {
+    loginModal.close();
+    router.push('/');
+    router.refresh();
+  };
+
+  const onToggle = () => {
+    loginModal.close();
+    registerModal.open();
+  };
+
+  return (
+    <Dialog open={loginModal.isOpen} onOpenChange={loginModal.close}>
+      <DialogContent>
+        <DialogTitle>Login</DialogTitle>
+        <DialogDescription>Welcome back</DialogDescription>
+        <Separator />
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
+        <Social google="Sign in with Google" />
+        <Separator />
+        <p
+          onClick={onToggle}
+          className="text-center hover:underline hover:underline-offset-[6px] cursor-pointer"
+        >
+          Don&apos;t have an account?
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
 };
-
-const LoginModal = React.forwardRef(
-  ({ onClose, children }: LoginModalProps, ref) => {
-    const [open, setOpen] = useState(false);
-    const router = useRouter();
-
-    const handleLoginSuccess = () => {
-      setOpen(false); // Close the dialog
-      onClose(); // Call onClose to notify parent component
-      router.push('/');
-      router.refresh();
-    };
-
-    return (
-      <Dialog
-        open={open}
-        onOpenChange={(newOpenState) => {
-          setOpen(newOpenState);
-          if (!newOpenState) {
-            onClose();
-          }
-        }}
-      >
-        <DialogTrigger>{children}</DialogTrigger>
-        <DialogContent>
-          <DialogTitle>Login</DialogTitle>
-          <DialogDescription>Welcome back</DialogDescription>
-          <Separator />
-          <LoginForm onLoginSuccess={handleLoginSuccess} />
-          <Social google="Sign in with Google" />
-          <Separator />
-          <Link
-            href="/signup"
-            onClick={() => {
-              onClose();
-            }}
-            className="text-center hover:underline hover:underline-offset-[6px]"
-          >
-            Don&apos;t have an account?
-          </Link>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-);
-
-LoginModal.displayName = 'LoginModal';
 
 export default LoginModal;

@@ -39,6 +39,7 @@ const BrandField = ({
   form,
 }: BrandFieldProps) => {
   const [openBrand, setOpenBrand] = useState(false);
+  const [selectedBrandName, setSelectedBrandName] = useState<string>('');
 
   return (
     <FormField
@@ -60,7 +61,7 @@ const BrandField = ({
                     !field.value && 'text-muted-foreground'
                   )}
                 >
-                  {field.value ? field.value : 'Select brand'}
+                  {field.value ? selectedBrandName : 'Select brand'}
 
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -72,13 +73,14 @@ const BrandField = ({
                 <CommandEmpty>No brands found.</CommandEmpty>
                 <ScrollArea className="h-[10rem]">
                   <CommandGroup>
-                    {brands?.map((b: any) => (
+                    {brands?.map((b) => (
                       <CommandItem
                         value={b.brand_name}
                         key={b.id}
                         onSelect={() => {
-                          form.setValue('brand', b.brand_name);
+                          form.setValue('brand', b.id);
                           handleBrandSelect(b.id);
+                          setSelectedBrandName(b.brand_name);
                           setOpenBrand(false);
                         }}
                       >

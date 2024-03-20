@@ -90,7 +90,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
       } else if (error) {
         setError(`Error - ${error.message}`);
       } else {
-        setSuccess(`We've sent you an email to verify`);
+        onRegisterSuccess();
       }
     } catch (error) {
       toast.error(`Error in catch block ${error}`);

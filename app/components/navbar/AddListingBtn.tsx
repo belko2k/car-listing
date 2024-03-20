@@ -2,16 +2,17 @@
 
 import { ListPlus } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   onClick: () => void;
+  label?: string;
 };
 
-const AddListingBtn = ({ onClick }: Props) => {
+const AddListingBtn = ({ onClick, label }: Props) => {
   return (
     <Button onClick={onClick} className="gap-3 text-xl">
       <ListPlus />
+      {label}
     </Button>
   );
 };

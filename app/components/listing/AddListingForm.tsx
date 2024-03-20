@@ -2,13 +2,11 @@
 
 import * as z from 'zod';
 
-import { useState, useEffect, useCallback } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Form } from '../ui/form';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import SubmitBtn from '../SubmitBtn';
-
-import Dropzone from 'react-dropzone';
 
 import { ListingSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -46,7 +44,7 @@ import {
   Model,
   Transmission,
 } from '@/types';
-import Image from 'next/image';
+import { Input } from '../ui/input';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -83,12 +81,12 @@ const AddListingForm = () => {
   const [transmission, setTransmission] = useState<Transmission[]>([]);
   const [fuelType, setFuelType] = useState<FuelType[]>([]);
   const [color, setColor] = useState<Color[]>([]);
+  const [file, setFile] = useState<File | undefined>();
+  const [imageData, setImageData] = useState('');
 
-  const [myFiles, setMyFiles] = useState<(File & { preview: string })[]>([]);
-  const removeAll = () => {
-    setMyFiles([]);
-    form.setValue('image', undefined);
-  };
+  const imageRef = form.register('image');
+
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -113,16 +111,55 @@ const AddListingForm = () => {
 
   const handleBrandSelect = (brand: number) => {
     setSelectedBrand(brand);
-    // Clear model when choosing brand again
     form.setValue('model', 0);
   };
 
   // Function to filter models based on selected brand
   const filteredModels = models.filter((m) => m.brand_id === selectedBrand);
 
+  const handleImage = (e: React.FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+    setFile(target.files[0]);
+
+    const img = new FileReader();
+
+    img.onload = function () {
+      setPreview(img.result);
+    };
+
+    img.readAsDataURL(target.files[0]);
+  };
+
   const onSubmit = async (values: z.infer<typeof ListingSchema>) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    if (typeof file === 'undefined') return;
+
+    const formData = new FormData();
+
+    formData.append('file', file);
+    formData.append('upload_preset', 'infinite-drive');
+    formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
+
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/dzwufkxg4/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+
+    const { secure_url } = await res.json();
+
+    setImageData(secure_url);
+
+    console.log('results');
+
+    console.log('form data', formData);
     console.log('Form Submitted:', values);
+    console.log('image url', imageData);
   };
 
   return (
@@ -208,82 +245,31 @@ const AddListingForm = () => {
           color={color}
           isSubmitting={isSubmitting}
         />
-        <Controller
+
+        <FormField
           control={control}
           name="image"
-          rules={{
-            required: { value: true, message: 'This field is required' },
-          }}
-          render={({ field: { onChange, onBlur }, fieldState }) => (
-            <Dropzone
-              multiple
-              noClick
-              maxSize={7242880}
-              accept={{
-                'image/jpeg': [],
-                'image/png': [],
-              }}
-              onDrop={(acceptedFiles) => {
-                form.setValue('image', acceptedFiles as unknown as FileList, {
-                  shouldValidate: true,
-                });
-                setMyFiles(
-                  acceptedFiles.map((file) =>
-                    Object.assign(file, { preview: URL.createObjectURL(file) })
-                  )
-                );
-              }}
-            >
-              {({
-                getRootProps,
-                getInputProps,
-                open,
-                isDragActive,
-                acceptedFiles,
-              }) => (
-                <>
-                  <div>
-                    <div {...getRootProps()}>
-                      <input
-                        {...getInputProps({
-                          id: 'spreadsheet',
-                          onChange,
-                          onBlur,
-                        })}
-                      />
-
-                      <p>
-                        <button type="button" onClick={open}>
-                          Choose a file
-                        </button>
-                        or drag and drop
-                      </p>
-
-                      {myFiles.length
-                        ? myFiles.map((file) => (
-                            <li key={file.name}>
-                              <img src={file.preview} alt={file.name} />
-                              {file.name} - {file.size} bytes
-                            </li>
-                          ))
-                        : 'No file selected.'}
-
-                      <div>
-                        {fieldState.error && (
-                          <span role="alert">{fieldState.error.message}</span>
-                        )}
-                      </div>
-                      {myFiles.length > 0 && (
-                        <button onClick={removeAll}>Remove All</button>
-                      )}
-                    </div>
-                  </div>
-                  <div></div>
-                </>
-              )}
-            </Dropzone>
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Image</FormLabel>
+              <Input
+                {...imageRef}
+                placeholder="Upload a file"
+                type="file"
+                onChange={handleImage}
+                disabled={isSubmitting}
+                accept="image/png, image/jpeg"
+              />
+              <FormMessage />
+            </FormItem>
           )}
         />
+
+        {preview && (
+          <p className="mb-5">
+            <img src={preview as string} alt="Upload preview" />
+          </p>
+        )}
 
         <SubmitBtn
           label="Create a listing"

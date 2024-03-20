@@ -6,12 +6,14 @@ import Social from '@/app/components/auth/Social';
 import { Separator } from '@/app/components/ui/separator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const RegisterPage = () => {
   const router = useRouter();
   const handleRegisterSuccess = () => {
-    // router.push('/');
-    // router.refresh();
+    toast.success('Success. Verification mail sent to your email!');
+    router.push('/');
+    router.refresh();
   };
 
   return (

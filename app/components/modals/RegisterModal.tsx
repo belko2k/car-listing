@@ -12,6 +12,7 @@ import Social from '../auth/Social';
 import { useRouter } from 'next/navigation';
 import { useLoginModal } from '@/store/use-login-modal';
 import { useRegisterModal } from '@/store/use-register-modal';
+import { toast } from 'sonner';
 
 const RegisterModal = () => {
   const router = useRouter();
@@ -25,7 +26,9 @@ const RegisterModal = () => {
 
   const handleRegisterSuccess = () => {
     registerModal.close();
-    router.push('/');
+    toast.success('Success. Verification mail sent to your email!', {
+      duration: 10000,
+    });
     router.refresh();
   };
 

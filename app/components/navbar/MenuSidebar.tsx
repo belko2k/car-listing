@@ -10,11 +10,11 @@ import { User } from '@supabase/supabase-js';
 import { twMerge } from 'tailwind-merge';
 import { useListingModal } from '@/store/use-listing-modal';
 
-type MenuSidebarProps = {
+type Props = {
   user: User | null;
 };
 
-const MenuSidebar = ({ user }: MenuSidebarProps) => {
+const MenuSidebar = ({ user }: Props) => {
   const pathname = usePathname();
   const isActive = (path: string) => path === pathname;
 
@@ -73,8 +73,7 @@ const MenuSidebar = ({ user }: MenuSidebarProps) => {
                 </li>
               );
             })}
-
-            <AddListingBtn onClick={toggleListingModal} />
+            <AddListingBtn label="List your car" onClick={toggleListingModal} />
           </ul>
         </nav>
       </SheetContent>

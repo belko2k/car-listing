@@ -56,6 +56,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
     await supabase.auth.signOut();
     setIsOpen(false);
     toast.info('Logged out');
+    router.push('/');
     router.refresh();
   };
 
@@ -106,7 +107,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
             />
 
             <AlertDialog>
-              <AlertDialogTrigger>
+              <AlertDialogTrigger asChild>
                 <MenuItem label="Log out" icon={CiLogout} iconSize={20} />
               </AlertDialogTrigger>
               <AlertDialogContent>

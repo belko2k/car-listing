@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '../ui/button';
 
 type MenuItemProps = {
@@ -7,7 +9,12 @@ type MenuItemProps = {
   iconSize?: number;
 };
 
-const MenuItem = ({ label, onClick, icon: Icon, iconSize }: MenuItemProps) => {
+export const MenuItem = ({
+  label,
+  onClick,
+  icon: Icon,
+  iconSize,
+}: MenuItemProps) => {
   return (
     <Button onClick={onClick} variant="menu" size="lg">
       <span className="sr-only">{label}</span>
@@ -15,5 +22,3 @@ const MenuItem = ({ label, onClick, icon: Icon, iconSize }: MenuItemProps) => {
     </Button>
   );
 };
-
-export default MenuItem;

@@ -24,7 +24,7 @@ import {
 
 import { Button } from '../ui/button';
 
-import MenuItem from './MenuItem';
+import { MenuItem } from './MenuItem';
 import { User } from '@supabase/supabase-js';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { toast } from 'sonner';
@@ -82,7 +82,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
           <span className="sr-only">User menu button</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         {user ? (
           <>
             <DropdownMenuLabel className="text-center">
@@ -92,42 +92,46 @@ const UserMenu = ({ user }: UserMenuProps) => {
               </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <div className="grid gap-2 mt-3">
+              <MenuItem
+                label="Profile"
+                onClick={() => handleRoute('profile')}
+                icon={LuUserCircle}
+                iconSize={20}
+              />
+              <MenuItem
+                label="Favorites"
+                icon={FaHeart}
+                iconSize={20}
+                onClick={() => handleRoute('favorites')}
+              />
 
-            <MenuItem
-              label="Profile"
-              onClick={() => handleRoute('profile')}
-              icon={LuUserCircle}
-              iconSize={20}
-            />
-            <MenuItem
-              label="Favorites"
-              icon={FaHeart}
-              iconSize={20}
-              onClick={() => handleRoute('favorites')}
-            />
-
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <MenuItem label="Log out" icon={CiLogout} iconSize={20} />
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to log out?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. YOu will be logged out of your
-                    account after.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleLogout}>
-                    Log Out
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  {/* <MenuItem label="Log out" icon={CiLogout} iconSize={20} /> */}
+                  <Button variant="menu" size="lg">
+                    <CiLogout size={20} /> Log out
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure you want to log out?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. YOu will be logged out of
+                      your account after.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleLogout}>
+                      Log Out
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </>
         ) : (
           <>

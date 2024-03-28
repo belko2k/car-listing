@@ -45,6 +45,10 @@ import {
   Transmission,
 } from '@/types';
 import { Input } from '../ui/input';
+import { supabaseBrowser } from '@/lib/supabase/client';
+import { Button } from '../ui/button';
+import { createListing, getSignedURL } from '@/actions/actions';
+import { toast } from 'sonner';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -63,7 +67,7 @@ const AddListingForm = () => {
       condition: 0,
       transmission: 0,
       fuel_type: 0,
-      image: undefined,
+      image: '',
     },
   });
 
@@ -81,12 +85,20 @@ const AddListingForm = () => {
   const [transmission, setTransmission] = useState<Transmission[]>([]);
   const [fuelType, setFuelType] = useState<FuelType[]>([]);
   const [color, setColor] = useState<Color[]>([]);
-  const [file, setFile] = useState<File | undefined>();
-  const [imageData, setImageData] = useState('');
+  const [file, setFile] = useState<File | undefined>(undefined);
+  const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
-  const imageRef = form.register('image');
+  const imageInputRef = form.register('image');
 
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  const computeSHA256 = async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+    return hashHex;
+  };
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -118,48 +130,109 @@ const AddListingForm = () => {
   const filteredModels = models.filter((m) => m.brand_id === selectedBrand);
 
   const handleImage = (e: React.FormEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    };
-    setFile(target.files[0]);
+    const file = (e.target as HTMLInputElement).files?.[0];
+    setFile(file);
 
-    const img = new FileReader();
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+    }
 
-    img.onload = function () {
-      setPreview(img.result);
-    };
-
-    img.readAsDataURL(target.files[0]);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFileUrl(url);
+    } else {
+      setFileUrl(undefined);
+    }
   };
 
   const onSubmit = async (values: z.infer<typeof ListingSchema>) => {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    if (typeof file === 'undefined') return;
+    const supabase = supabaseBrowser();
+    const user = await supabase.auth.getUser();
+    try {
+      // const { error: listingError } = await supabase.from('listing').insert({
+      //   user_id: user.data.user?.id,
+      //   title: values.title,
+      //   model_id: values.model,
+      //   mileage: values.mileage,
+      //   price: values.price,
+      //   power: values.power,
+      //   previous_owners: values.previous_owners,
+      //   door_count: values.door_count,
+      //   seat_count: values.seat_count,
+      //   car_type_id: values.car_type,
+      //   condition_id: values.condition,
+      //   transmission_id: values.transmission,
+      //   fuel_type_id: values.fuel_type,
+      //   first_registration: values.first_registration,
+      //   description: values.description,
+      //   color_id: values.color,
+      //   images: imageData,
+      // });
+      // if (listingError) {
+      //   throw Error;
+      // }
 
-    const formData = new FormData();
+      console.log('values', values);
 
-    formData.append('file', file);
-    formData.append('upload_preset', 'infinite-drive');
-    formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
+      try {
+        let mediaId: number | undefined = undefined;
+        if (file) {
+          const checksum = await computeSHA256(file);
+          const signedURLResult = await getSignedURL(
+            file.type,
+            file.size,
+            checksum
+          );
 
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/dzwufkxg4/image/upload',
-      {
-        method: 'POST',
-        body: formData,
+          if (signedURLResult.failure !== undefined) {
+            console.error('error');
+            throw new Error(signedURLResult.failure);
+          }
+          const { url } = signedURLResult.success;
+          mediaId = signedURLResult.success.mediaId;
+
+          await fetch(url, {
+            method: 'PUT',
+            body: file,
+            headers: {
+              'Content-type': file.type,
+            },
+          });
+
+          console.log({ mediaId });
+
+          await createListing({
+            title: values.title,
+            price: values.price,
+            availability: true,
+            mileage: values.mileage,
+            condition_id: values.condition,
+            first_registration: values.first_registration,
+            description: values.description,
+            mediaId,
+            model_id: values.model,
+            fuel_type_id: values.fuel_type,
+            transmission_id: values.transmission,
+            color_id: values.color,
+            car_type_id: values.car_type,
+            seat_count: values.seat_count,
+            door_count: values.door_count,
+            power: values.power,
+            previous_owners: values.previous_owners,
+          });
+        }
+      } catch (error) {
+        toast.error('Error uploading image');
+        console.log(error);
       }
-    );
 
-    const { secure_url } = await res.json();
-
-    setImageData(secure_url);
-
-    console.log('results');
-
-    console.log('form data', formData);
-    console.log('Form Submitted:', values);
-    console.log('image url', imageData);
+      toast.success('Created!');
+    } catch (error) {
+      toast.error('Error updating the data!');
+      console.log(error);
+    }
   };
 
   return (
@@ -253,22 +326,36 @@ const AddListingForm = () => {
             <FormItem>
               <FormLabel className="text-base">Image</FormLabel>
               <Input
-                {...imageRef}
+                {...imageInputRef}
                 placeholder="Upload a file"
                 type="file"
                 onChange={handleImage}
                 disabled={isSubmitting}
-                accept="image/png, image/jpeg"
+                accept="image/png, image/jpeg, image/webp, image/heic"
               />
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {preview && (
-          <p className="mb-5">
-            <img src={preview as string} alt="Upload preview" />
-          </p>
+        {fileUrl && file && (
+          <div className="grid gap-4">
+            <p className="mb-5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={fileUrl} alt={file.name} />
+            </p>
+            <Button
+              variant="destructive"
+              disabled={isSubmitting}
+              onClick={() => {
+                setFile(undefined);
+                setFileUrl(undefined);
+                form.setValue('image', undefined);
+              }}
+            >
+              Remove
+            </Button>
+          </div>
         )}
 
         <SubmitBtn

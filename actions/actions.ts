@@ -6,6 +6,8 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 import crypto from 'crypto';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const supabase = supabaseServer();
 
@@ -22,7 +24,7 @@ const s3 = new S3Client({
 
 const acceptedTypes = ['image/png', 'image/jpeg', 'image/png', 'image/webp'];
 
-const maxFileSize = 10 * 1024 * 1024;
+const maxFileSize = 8 * 1024 * 1024;
 
 export async function getSignedURL(
   type: string,
@@ -77,7 +79,7 @@ type Props = {
   price: number;
   availability: boolean;
   condition_id: number;
-  first_registration: any;
+  first_registration: Date;
   description: string | undefined;
   mediaId?: number;
   mileage: number;
@@ -132,6 +134,11 @@ export async function createListing({
     }
   }
 
+  const adjustedDate = new Date(
+    first_registration.getTime() -
+      first_registration.getTimezoneOffset() * 60000
+  );
+
   const listingItem = await supabase
     .from('listing')
     .insert({
@@ -152,7 +159,7 @@ export async function createListing({
       door_count,
       power,
       previous_owners,
-      first_registration,
+      first_registration: adjustedDate.toISOString().split('T')[0],
     })
     .select();
 
@@ -162,4 +169,7 @@ export async function createListing({
       .update({ listing_id: listingItem.data?.[0].id })
       .eq('id', mediaId);
   }
+
+  revalidatePath('/cars');
+  redirect('/cars');
 }

@@ -49,6 +49,7 @@ import { supabaseBrowser } from '@/lib/supabase/client';
 import { Button } from '../ui/button';
 import { createListing, getSignedURL } from '@/actions/actions';
 import { toast } from 'sonner';
+import { useListingModal } from '@/store/use-listing-modal';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -76,6 +77,8 @@ const AddListingForm = () => {
     control,
     formState: { isSubmitting },
   } = form;
+
+  const listingModal = useListingModal();
 
   const [models, setModels] = useState<Model[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -150,88 +153,59 @@ const AddListingForm = () => {
 
     const supabase = supabaseBrowser();
     const user = await supabase.auth.getUser();
+
+    console.log('values', values);
+
     try {
-      // const { error: listingError } = await supabase.from('listing').insert({
-      //   user_id: user.data.user?.id,
-      //   title: values.title,
-      //   model_id: values.model,
-      //   mileage: values.mileage,
-      //   price: values.price,
-      //   power: values.power,
-      //   previous_owners: values.previous_owners,
-      //   door_count: values.door_count,
-      //   seat_count: values.seat_count,
-      //   car_type_id: values.car_type,
-      //   condition_id: values.condition,
-      //   transmission_id: values.transmission,
-      //   fuel_type_id: values.fuel_type,
-      //   first_registration: values.first_registration,
-      //   description: values.description,
-      //   color_id: values.color,
-      //   images: imageData,
-      // });
-      // if (listingError) {
-      //   throw Error;
-      // }
-
-      console.log('values', values);
-
-      try {
-        let mediaId: number | undefined = undefined;
-        if (file) {
-          const checksum = await computeSHA256(file);
-          const signedURLResult = await getSignedURL(
-            file.type,
-            file.size,
-            checksum
-          );
-
-          if (signedURLResult.failure !== undefined) {
-            console.error('error');
-            throw new Error(signedURLResult.failure);
-          }
-          const { url } = signedURLResult.success;
-          mediaId = signedURLResult.success.mediaId;
-
-          await fetch(url, {
-            method: 'PUT',
-            body: file,
-            headers: {
-              'Content-type': file.type,
-            },
-          });
-
-          console.log({ mediaId });
-
-          await createListing({
-            title: values.title,
-            price: values.price,
-            availability: true,
-            mileage: values.mileage,
-            condition_id: values.condition,
-            first_registration: values.first_registration,
-            description: values.description,
-            mediaId,
-            model_id: values.model,
-            fuel_type_id: values.fuel_type,
-            transmission_id: values.transmission,
-            color_id: values.color,
-            car_type_id: values.car_type,
-            seat_count: values.seat_count,
-            door_count: values.door_count,
-            power: values.power,
-            previous_owners: values.previous_owners,
-          });
+      let mediaId: number | undefined = undefined;
+      if (file) {
+        const checksum = await computeSHA256(file);
+        const signedURLResult = await getSignedURL(
+          file.type,
+          file.size,
+          checksum
+        );
+        if (signedURLResult.failure !== undefined) {
+          console.error('error');
+          throw new Error(signedURLResult.failure);
         }
-      } catch (error) {
-        toast.error('Error uploading image');
-        console.log(error);
+        const { url } = signedURLResult.success;
+        mediaId = signedURLResult.success.mediaId;
+        await fetch(url, {
+          method: 'PUT',
+          body: file,
+          headers: {
+            'Content-type': file.type,
+          },
+        });
+
+        await createListing({
+          title: values.title,
+          price: values.price,
+          availability: true,
+          mileage: values.mileage,
+          condition_id: values.condition,
+          first_registration: values.first_registration,
+          description: values.description,
+          mediaId,
+          model_id: values.model,
+          fuel_type_id: values.fuel_type,
+          transmission_id: values.transmission,
+          color_id: values.color,
+          car_type_id: values.car_type,
+          seat_count: values.seat_count,
+          door_count: values.door_count,
+          power: values.power,
+          previous_owners: values.previous_owners,
+        });
       }
 
       toast.success('Created!');
     } catch (error) {
       toast.error('Error updating the data!');
       console.log(error);
+    } finally {
+      listingModal.close();
     }
   };
 
@@ -339,7 +313,7 @@ const AddListingForm = () => {
         />
 
         {fileUrl && file && (
-          <div className="grid gap-4">
+          <div className="grid gap-2">
             <p className="mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={fileUrl} alt={file.name} />
@@ -353,7 +327,7 @@ const AddListingForm = () => {
                 form.setValue('image', undefined);
               }}
             >
-              Remove
+              Remove Image
             </Button>
           </div>
         )}

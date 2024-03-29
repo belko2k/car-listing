@@ -45,7 +45,7 @@ const FirstRegistrationField = ({
                   )}
                 >
                   {field.value ? (
-                    format(new Date(field.value), 'dd.MM.yyyy')
+                    format(new Date(field.value), 'dd-MM-yyyy')
                   ) : (
                     <span>Pick a date</span>
                   )}

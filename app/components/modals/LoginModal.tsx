@@ -20,7 +20,6 @@ const LoginModal = () => {
 
   const handleLoginSuccess = () => {
     loginModal.close();
-    router.push('/');
     router.refresh();
   };
 

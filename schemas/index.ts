@@ -1,15 +1,13 @@
 import * as z from 'zod';
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5;
-const ACCEPTED_IMAGE_MIME_TYPES = [
+const MAX_FILE_SIZE = 1024 * 1024 * 8;
+
+const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
   'image/jpg',
   'image/png',
   'image/webp',
 ];
-
-const ACCEPTED_IMAGE_TYPES = ['jpeg', 'jpg', 'png', 'webp'];
-
 export const LoginSchema = z.object({
   email: z.string().email({
     message: 'Email is required',
@@ -105,11 +103,13 @@ export const ListingSchema = z.object({
   color: z.coerce.number().int().optional(),
   image: z
     .any()
-    .refine((files) => {
-      return files?.[0]?.size <= MAX_FILE_SIZE;
-    }, `Max image size is 5MB.`)
+    .refine((files) => files?.length == 1, 'Image is required.')
     .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+      `Max image size is 8MB. Please remove the image and upload a new one.`
+    )
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      '.jpg, .jpeg, .png and .webp files are accepted.'
     ),
 });

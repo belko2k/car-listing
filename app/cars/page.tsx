@@ -6,7 +6,7 @@ const CarsPage = async () => {
   const listings = await getListings();
   return (
     <Wrapper>
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-8 my-12">
         {listings.map((listing) => (
           <ListingCard key={listing.id} {...listing} />
         ))}

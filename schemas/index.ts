@@ -55,9 +55,7 @@ export const RegisterSchema = z
   });
 
 export const ListingSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Title is required',
-  }),
+  title: z.string(),
   brand: z.number().min(1, {
     message: 'Choose a brand',
   }),

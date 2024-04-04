@@ -32,7 +32,7 @@ const ColorField = ({ control, color, isSubmitting }: ColorFieldProps) => {
           <FormControl>
             <RadioGroupColor
               onValueChange={field.onChange}
-              className="grid gap-6 grid-cols-4"
+              className="grid gap-6 grid-cols-2 min-[400px]:grid-cols-3 min-[500px]:grid-cols-4"
               disabled={isSubmitting}
             >
               {color?.map((c) => (

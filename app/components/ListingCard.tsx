@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/app/components/ui/card';
 import Image from 'next/image';
 import { GiGearStickPattern } from 'react-icons/gi';
 import { GiPathDistance } from 'react-icons/gi';
@@ -7,6 +12,19 @@ import { FaBolt } from 'react-icons/fa6';
 import { BsFuelPump } from 'react-icons/bs';
 import { formatPrice } from '@/lib/utils';
 import Link from 'next/link';
+
+type Props = {
+  title?: string;
+  brand_name: string;
+  model_name: string;
+  url: string;
+  price: number;
+  first_registration: Date;
+  mileage: number;
+  power: number;
+  transmission_type: string;
+  fuel_type_name: string;
+};
 
 const ListingCard = ({
   title,
@@ -19,7 +37,7 @@ const ListingCard = ({
   power,
   fuel_type_name,
   url,
-}: any) => {
+}: Props) => {
   const formattedDate = new Date(first_registration).toLocaleDateString(
     'en-US',
     { month: '2-digit', year: 'numeric' }

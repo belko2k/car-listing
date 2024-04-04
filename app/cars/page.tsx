@@ -1,16 +1,25 @@
-import getListings from '@/actions/getListings';
 import Wrapper from '../components/Wrapper';
-import ListingCard from '../components/ListingCard';
+import Listings from '../components/Listings';
+import { Suspense } from 'react';
+import ListingSkeleton from '../components/ListingSkeleton';
 
-const CarsPage = async () => {
-  const listings = await getListings();
+const CarsPage = () => {
   return (
     <Wrapper>
-      <div className="grid grid-cols-1 gap-8 my-12">
-        {listings.map((listing) => (
-          <ListingCard key={listing.id} {...listing} />
-        ))}
-      </div>
+      <h2>Listings</h2>
+      <Suspense
+        fallback={
+          <>
+            <ListingSkeleton />
+            <ListingSkeleton />
+            <ListingSkeleton />
+            <ListingSkeleton />
+            <ListingSkeleton />
+          </>
+        }
+      >
+        <Listings />
+      </Suspense>
     </Wrapper>
   );
 };

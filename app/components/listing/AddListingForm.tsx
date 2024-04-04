@@ -50,6 +50,7 @@ import { Button } from '../ui/button';
 import { createListing, getSignedURL } from '@/actions/actions';
 import { toast } from 'sonner';
 import { useListingModal } from '@/store/use-listing-modal';
+import Image from 'next/image';
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof ListingSchema>>({
@@ -214,7 +215,7 @@ const AddListingForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* TITLE */}
         <TitleField control={control} isSubmitting={isSubmitting} />
-        <div className="grid grid-cols-2 grid-flow-row gap-6">
+        <div className="grid grid-flow-row gap-6 min-[530px]:grid-cols-2">
           {/* BRAND */}
           <BrandField
             control={control}
@@ -315,8 +316,14 @@ const AddListingForm = () => {
         {fileUrl && file && (
           <div className="grid gap-2">
             <p className="mb-5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={fileUrl} alt={file.name} />
+              <Image
+                src={fileUrl}
+                alt={file.name}
+                width="0"
+                height="0"
+                sizes="100vw"
+                className="w-full object-cover rounded-md shadow-sm"
+              />
             </p>
             <Button
               variant="destructive"

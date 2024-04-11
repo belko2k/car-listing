@@ -52,7 +52,7 @@ const ListingCard = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid mt-6 gap-8 min-[800px]:grid-cols-[1fr,1fr,auto]">
+          <div className="grid mt-6 gap-8 @[850px]:grid-cols-[1fr,1fr,auto]">
             <div>
               <Image
                 src={url}
@@ -65,22 +65,22 @@ const ListingCard = ({
             </div>
             <div className="grid gap-6">
               <div className="grid gap-6  items-center">
-                <div className="grid gap-y-5 min-[340px]:grid-cols-2 min-[550px]:grid-cols-3 min-[800px]:grid-cols-2">
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[900px]:text-[1.35rem]">
+                <div className="grid gap-y-5 @[350px]:grid-cols-2  @[500px]:grid-cols-3 @[850px]:grid-cols-2">
+                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
                     <GiPathDistance /> {mileage} km
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[900px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
                     <IoCalendarClearOutline /> {formattedDate}
                   </p>
 
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[900px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
                     <GiGearStickPattern />
                     {transmission_type}
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[900px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
                     <BsFuelPump /> {fuel_type_name}
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[900px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
                     <FaBolt /> {power} Hp
                   </p>
                 </div>

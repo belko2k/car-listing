@@ -6,20 +6,27 @@ import ListingSkeleton from '../components/ListingSkeleton';
 const CarsPage = () => {
   return (
     <Wrapper>
-      <h2>Listings</h2>
-      <Suspense
-        fallback={
-          <>
-            <ListingSkeleton />
-            <ListingSkeleton />
-            <ListingSkeleton />
-            <ListingSkeleton />
-            <ListingSkeleton />
-          </>
-        }
-      >
-        <Listings />
-      </Suspense>
+      <main className="flex gap-4">
+        <div className="relative hidden min-[800px]:block w-[300px] shrink-0 bg-red-400">
+          <div className="sticky top-0">
+            <h2>Filters</h2>
+          </div>
+        </div>
+
+        <Suspense
+          fallback={
+            <>
+              <ListingSkeleton />
+              <ListingSkeleton />
+              <ListingSkeleton />
+              <ListingSkeleton />
+              <ListingSkeleton />
+            </>
+          }
+        >
+          <Listings />
+        </Suspense>
+      </main>
     </Wrapper>
   );
 };

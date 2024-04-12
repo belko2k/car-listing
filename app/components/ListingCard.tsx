@@ -14,6 +14,7 @@ import { formatPrice } from '@/lib/utils';
 import Link from 'next/link';
 
 type Props = {
+  id: string;
   title?: string;
   brand_name: string;
   model_name: string;
@@ -27,6 +28,7 @@ type Props = {
 };
 
 const ListingCard = ({
+  id,
   title,
   brand_name,
   model_name,
@@ -44,7 +46,7 @@ const ListingCard = ({
   );
 
   return (
-    <Link href={`/cars`}>
+    <Link href={`/cars/${id}`}>
       <Card>
         <CardHeader className="bg-primary rounded-t-md py-3">
           <CardTitle className="text-white font-normal text-[1.3rem]">

@@ -6,26 +6,14 @@ import {
 } from '@/app/components/ui/card';
 import Image from 'next/image';
 import { GiGearStickPattern } from 'react-icons/gi';
-import { GiPathDistance } from 'react-icons/gi';
+import { FaRoad } from 'react-icons/fa';
 import { IoCalendarClearOutline } from 'react-icons/io5';
-import { FaBolt } from 'react-icons/fa6';
+import { IoSpeedometer } from 'react-icons/io5';
 import { BsFuelPump } from 'react-icons/bs';
-import { formatPrice } from '@/lib/utils';
+import { HiOutlineUsers } from 'react-icons/hi2';
+import { formatPrice, formattedDate } from '@/lib/utils';
 import Link from 'next/link';
-
-type Props = {
-  id: string;
-  title?: string;
-  brand_name: string;
-  model_name: string;
-  url: string;
-  price: number;
-  first_registration: Date;
-  mileage: number;
-  power: number;
-  transmission_type: string;
-  fuel_type_name: string;
-};
+import { Listing } from '@/types';
 
 const ListingCard = ({
   id,
@@ -39,12 +27,8 @@ const ListingCard = ({
   power,
   fuel_type_name,
   url,
-}: Props) => {
-  const formattedDate = new Date(first_registration).toLocaleDateString(
-    'en-US',
-    { month: '2-digit', year: 'numeric' }
-  );
-
+  previous_owners,
+}: Listing) => {
   return (
     <Link href={`/cars/${id}`}>
       <Card>
@@ -54,7 +38,7 @@ const ListingCard = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid mt-6 gap-8 @[850px]:grid-cols-[1fr,1fr,auto]">
+          <div className="grid mt-6 gap-8 @[850px]:grid-cols-[1fr,1fr]">
             <div>
               <Image
                 src={url}
@@ -65,30 +49,37 @@ const ListingCard = ({
                 className="w-full aspect-[16/10] object-cover rounded-md shadow-sm"
               />
             </div>
-            <div className="grid gap-6">
-              <div className="grid gap-6  items-center">
+            <div className="grid gap-10">
+              <div className="grid gap-6 items-center">
                 <div className="grid gap-y-5 @[350px]:grid-cols-2  @[500px]:grid-cols-3 @[850px]:grid-cols-2">
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
-                    <GiPathDistance /> {mileage} km
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
+                    <FaRoad /> {mileage} km
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
-                    <IoCalendarClearOutline /> {formattedDate}
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
+                    <IoCalendarClearOutline />
+                    {formattedDate(first_registration)}
                   </p>
 
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
                     <GiGearStickPattern />
                     {transmission_type}
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
                     <BsFuelPump /> {fuel_type_name}
                   </p>
-                  <p className="flex gap-2 items-center text-[1.2rem] min-[950px]:text-[1.35rem]">
-                    <FaBolt /> {power} Hp
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
+                    <IoSpeedometer /> {power} Hp
+                  </p>
+                  <p className="flex gap-2 items-center text-[1.2rem] @[800px]:text-[1.35rem]">
+                    <HiOutlineUsers />
+                    {previous_owners === 1
+                      ? `${previous_owners} owner`
+                      : `${previous_owners} owners`}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col items-start min-[750px]:self-end">
-                <p className="text-[1.25rem]  sm:text-[1.6rem] bg-primary py-3 px-5 rounded-xl text-primary-foreground">
+              <div className="grid w-fit h-fit justify-self-end self-end">
+                <p className="text-[1.25rem] sm:text-[1.6rem] bg-primary py-3 px-5 rounded-xl text-primary-foreground">
                   {formatPrice(price)}
                 </p>
               </div>

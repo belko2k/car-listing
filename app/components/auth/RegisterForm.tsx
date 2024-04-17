@@ -206,7 +206,7 @@ const RegisterForm = ({ onRegisterSuccess }: RegisterFormProps) => {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="ex. 123-456-789"
+                  placeholder="ex. 123456789"
                   type="tel"
                   disabled={isSubmitting}
                   className="text-base"

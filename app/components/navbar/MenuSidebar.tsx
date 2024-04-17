@@ -9,6 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { twMerge } from 'tailwind-merge';
 import { useListingModal } from '@/store/use-listing-modal';
+import { useState } from 'react';
 
 type Props = {
   user: User | null;
@@ -18,6 +19,8 @@ const MenuSidebar = ({ user }: Props) => {
   const pathname = usePathname();
   const isActive = (path: string) => path === pathname;
 
+  const [openSheet, setOpenSheet] = useState(false);
+
   const { open } = useListingModal();
   const router = useRouter();
 
@@ -26,10 +29,11 @@ const MenuSidebar = ({ user }: Props) => {
       open();
     } else {
       router.push('/login');
+      setOpenSheet(false);
     }
   };
   return (
-    <Sheet>
+    <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger asChild>
         <div
           aria-label="menu"

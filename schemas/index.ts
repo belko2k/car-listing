@@ -33,8 +33,11 @@ export const RegisterSchema = z
     }),
     contactNumber: z
       .string()
-      .min(8, {
-        message: 'Number must contain at least 8 digits',
+      .min(9, {
+        message: 'Number must contain 9 digits',
+      })
+      .max(9, {
+        message: 'Number must contain at most 9 digits',
       })
       .regex(/^[0-9]+$/, {
         message: 'Only numbers are allowed',

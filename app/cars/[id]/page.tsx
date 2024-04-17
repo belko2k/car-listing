@@ -28,22 +28,23 @@ const CarPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <Wrapper>
-      <h2 className="bg-primary text-background text-xl font-semibold py-4 px-4 my-6 rounded-lg shadow-md">
-        {listing.brand_name} {listing.model_name} - {listing.title}
-      </h2>
-      <div>
-        <div>
+      <div className="grid gap-6 lg:grid-areas-layout my-8">
+        <div className="lg:grid-in-header">
+          <h2 className="bg-primary text-background text-xl font-semibold py-4 px-4 rounded-lg shadow-md">
+            {listing.brand_name} {listing.model_name} {listing.title}
+          </h2>
+        </div>
+        <div className="lg:grid-in-img">
           <Image
             src={listing.url}
             alt={`${listing.brand_name} ${listing.model_name}`}
             width="0"
             height="0"
             sizes="100vw"
-            className="w-full aspect-[16/10] object-cover rounded-xl shadow-lg"
+            className="w-full aspect-[16/9] object-cover rounded-xl shadow-lg"
           />
         </div>
-
-        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 bg-background py-6 px-6 my-6 rounded-lg shadow-md min-[870px]:grid-cols-3">
+        <div className="grid lg:grid-in-data grid-cols-1 min-[380px]:grid-cols-2 gap-4 bg-background py-6 px-6 rounded-lg shadow-md min-[870px]:grid-cols-3">
           <div className="flex gap-4 items-center">
             <FaRoad size={40} className="shrink-0" />
             <div>
@@ -95,7 +96,7 @@ const CarPage = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div className="bg-background py-6 px-6 my-6 rounded-lg shadow-md">
+        <div className="lg:grid-in-tData bg-background py-6 px-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold">Tehnical Data</h3>
           <Separator className="my-4" />
           <div className="[&>*:nth-child(even)]:bg-neutral-100 [&>*:nth-child(even)]:rounded-lg">
@@ -156,35 +157,33 @@ const CarPage = async ({ params }: { params: { id: string } }) => {
           </p>
         </div>
 
-        <div>
-          <p className="text-3xl font-bold text-center bg-background py-6 px-4 my-6 rounded-lg shadow-md">
+        <div className="lg:grid-in-price bg-background py-6 px-4 rounded-lg shadow-md">
+          <p className="text-3xl font-bold text-center ">
             {formatPrice(listing.price)}
           </p>
         </div>
 
-        <div className="bg-background py-6 px-6 my-6 rounded-lg shadow-md">
-          <div>
-            <h3 className="text-xl font-semibold">Seller</h3>
-            <Separator className="my-4" />
-            <div className="grid gap-4">
-              <p className="text-lg text-center">{listing.username}</p>
-              <div className="flex items-center justify-center gap-2">
-                <FaSquarePhone size={25} />
-                <a
-                  href={`tel:${listing.contact_number}`}
-                  className="hover:underline"
-                >
-                  <p className="text-lg">
-                    {formattedPhoneNumber(listing.contact_number)}
-                  </p>
-                </a>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <FaSquareEnvelope size={25} />
-                <a href={`mailto:${listing.email}`} className="hover:underline">
-                  <p className="text-lg">{listing.email}</p>
-                </a>
-              </div>
+        <div className="lg:grid-in-seller bg-background py-6 px-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold">Seller</h3>
+          <Separator className="my-4" />
+          <div className="grid gap-4">
+            <p className="text-lg text-center">{listing.username}</p>
+            <div className="flex items-center lg:text-left justify-center lg:justify-start gap-2">
+              <FaSquarePhone size={25} />
+              <a
+                href={`tel:${listing.contact_number}`}
+                className="hover:underline"
+              >
+                <p className="text-lg">
+                  {formattedPhoneNumber(listing.contact_number)}
+                </p>
+              </a>
+            </div>
+            <div className="flex items-center justify-center lg:justify-start gap-2">
+              <FaSquareEnvelope size={25} />
+              <a href={`mailto:${listing.email}`} className="hover:underline">
+                <p className="text-lg">{listing.email}</p>
+              </a>
             </div>
           </div>
         </div>

@@ -76,11 +76,22 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      gridTemplateAreas: {
+        layout: [
+          'header header header header',
+          'img img img price',
+          'img img img seller',
+          'img img img  . ',
+          'data data data .',
+          'tData tData tData . ',
+        ],
+      },
     },
   },
   plugins: [
     require('tailwindcss-animate'),
     require('@tailwindcss/container-queries'),
+    require('@savvywombat/tailwindcss-grid-areas'),
   ],
 } satisfies Config;
 

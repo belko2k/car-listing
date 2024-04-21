@@ -20,8 +20,8 @@ import { Input } from '../ui/input';
 
 import SubmitBtn from '../SubmitBtn';
 
-import FormError from './form-error';
-import FormSuccess from './form-success';
+import FormError from '../form-error';
+import FormSuccess from '../form-success';
 import { toast } from 'sonner';
 
 import { supabaseBrowser } from '@/lib/supabase/client';

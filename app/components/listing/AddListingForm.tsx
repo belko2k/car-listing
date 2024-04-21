@@ -152,11 +152,6 @@ const AddListingForm = () => {
   const onSubmit = async (values: z.infer<typeof ListingSchema>) => {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    const supabase = supabaseBrowser();
-    const user = await supabase.auth.getUser();
-
-    console.log('values', values);
-
     try {
       let mediaId: number | undefined = undefined;
       if (file) {

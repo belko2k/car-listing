@@ -114,3 +114,9 @@ export const ListingSchema = z.object({
       '.jpg, .jpeg, .png and .webp files are accepted.'
     ),
 });
+
+export const email = z.object({
+  email: z.string().email({
+    message: 'Email is required',
+  }),
+});

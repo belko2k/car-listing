@@ -78,7 +78,7 @@ const ListingCard = ({
                   </p>
                 </div>
               </div>
-              <div className="grid w-fit h-fit justify-self-end self-end">
+              <div className="grid w-fit h-fit justify-self-end self-end lg:sticky">
                 <p className="text-[1.25rem] sm:text-[1.6rem] bg-primary py-3 px-5 rounded-xl text-primary-foreground">
                   {formatPrice(price)}
                 </p>

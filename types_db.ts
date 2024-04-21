@@ -9,6 +9,46 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      acc_del_req: {
+        Row: {
+          id: number
+          req_email: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: number
+          req_email?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: number
+          req_email?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_acc_del_req_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "listings_view"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_acc_del_req_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_acc_del_req_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "single_listing_view"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       brand: {
         Row: {
           brand_name: string
@@ -208,8 +248,22 @@ export type Database = {
             foreignKeyName: "public_listing_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "listings_view"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_listing_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_listing_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "single_listing_view"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -247,11 +301,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "public_media_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_media_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "single_listing_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_media_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "listings_view"
+            referencedColumns: ["user_id"]
+          },
+          {
             foreignKeyName: "public_media_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_media_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "single_listing_view"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -327,7 +409,80 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      listings_view: {
+        Row: {
+          availability: boolean | null
+          brand_name: string | null
+          car_type_name: string | null
+          color_name: string | null
+          condition_type: string | null
+          created_at: string | null
+          description: string | null
+          door_count: number | null
+          first_registration: string | null
+          fuel_type_name: string | null
+          id: number | null
+          mileage: number | null
+          model_name: string | null
+          power: number | null
+          previous_owners: number | null
+          price: number | null
+          seat_count: number | null
+          title: string | null
+          transmission_type: string | null
+          url: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      single_listing_view: {
+        Row: {
+          address: string | null
+          availability: boolean | null
+          brand_name: string | null
+          car_type_name: string | null
+          color_name: string | null
+          condition_type: string | null
+          contact_number: string | null
+          created_at: string | null
+          description: string | null
+          door_count: number | null
+          email: string | null
+          first_name: string | null
+          first_registration: string | null
+          fuel_type_name: string | null
+          id: number | null
+          last_name: string | null
+          mileage: number | null
+          model_name: string | null
+          power: number | null
+          previous_owners: number | null
+          price: number | null
+          seat_count: number | null
+          title: string | null
+          transmission_type: string | null
+          url: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

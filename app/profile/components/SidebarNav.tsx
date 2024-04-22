@@ -22,7 +22,7 @@ export function SidebarNav({ items }: SidebarNavProps) {
           key={item.href}
           href={item.href}
           className={cn(
-            ' md:text-lg font-medium rounded-md px-4 py-2 transition-colors',
+            ' md:text-lg font-medium rounded-md px-5 py-3 transition-colors',
             isActive(item.href)
               ? 'font-medium bg-foreground text-background'
               : 'text-foreground hover:bg-neutral-200'

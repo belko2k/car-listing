@@ -52,7 +52,7 @@ const Navbar = ({ user }: NavbarProps) => {
           <div className="flex gap-6 items-center">
             <div className="hidden sm:block">
               <nav className="flex gap-6 items-center">
-                <AddListingBtn onClick={toggleListingModal} />
+                <AddListingBtn label="Add" onClick={toggleListingModal} />
                 <ul className="flex gap-4">
                   {links.map((link) => (
                     <li key={link.name}>

@@ -77,8 +77,8 @@ export type SingleListing = {
   seat_count: number;
   email: string;
   username: string;
-  first_name: string;
-  last_name: string;
-  address: string;
+  first_name?: string;
+  last_name?: string;
+  address?: string;
   contact_number: string;
 };

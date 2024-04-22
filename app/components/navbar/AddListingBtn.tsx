@@ -10,7 +10,7 @@ type Props = {
 
 const AddListingBtn = ({ onClick, label }: Props) => {
   return (
-    <Button onClick={onClick} className="gap-3 text-xl">
+    <Button onClick={onClick} className="gap-3 text-lg">
       <ListPlus />
       {label}
     </Button>

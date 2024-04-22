@@ -24,7 +24,7 @@ const CarPage = async ({ params }: { params: { id: string } }) => {
     .select('*')
     .eq('id', params.id);
 
-  const listing: SingleListing = data?.[0];
+  const listing: any = data?.[0];
 
   return (
     <Wrapper>

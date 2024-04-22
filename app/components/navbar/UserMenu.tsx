@@ -103,12 +103,11 @@ const UserMenu = ({ user }: UserMenuProps) => {
                 label="Favorites"
                 icon={FaHeart}
                 iconSize={20}
-                onClick={() => handleRoute('favorites')}
+                onClick={() => handleRoute('profile/favorites')}
               />
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  {/* <MenuItem label="Log out" icon={CiLogout} iconSize={20} /> */}
                   <Button variant="menu" size="lg">
                     <CiLogout size={20} /> Log out
                   </Button>

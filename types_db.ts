@@ -47,6 +47,20 @@ export type Database = {
             referencedRelation: "single_listing_view"
             referencedColumns: ["user_id"]
           },
+          {
+            foreignKeyName: "public_acc_del_req_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_acc_del_req_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings_view"
+            referencedColumns: ["user_id"]
+          },
         ]
       }
       brand: {
@@ -265,6 +279,20 @@ export type Database = {
             referencedRelation: "single_listing_view"
             referencedColumns: ["user_id"]
           },
+          {
+            foreignKeyName: "public_listing_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_listing_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings_view"
+            referencedColumns: ["user_id"]
+          },
         ]
       }
       media: {
@@ -315,6 +343,20 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "public_media_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_media_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings_view"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "public_media_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -333,6 +375,20 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "single_listing_view"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_media_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "public_media_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_listings_view"
             referencedColumns: ["user_id"]
           },
         ]
@@ -472,6 +528,46 @@ export type Database = {
           url: string | null
           user_id: string | null
           username: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_listings: {
+        Row: {
+          availability: boolean | null
+          brand_name: string | null
+          id: number | null
+          model_name: string | null
+          price: number | null
+          url: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_profiles_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_listings_view: {
+        Row: {
+          availability: boolean | null
+          brand_name: string | null
+          id: number | null
+          model_name: string | null
+          price: number | null
+          url: string | null
+          user_id: string | null
         }
         Relationships: [
           {

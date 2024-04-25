@@ -36,7 +36,7 @@ export type Color = {
 };
 
 export type Listing = {
-  id: string;
+  id: number;
   title: string;
   brand_name: string;
   model_name: string;
@@ -53,10 +53,10 @@ export type Listing = {
   description: string;
   condition_type: string;
   color_name: string;
-  color_code: string;
+  availability: boolean;
 };
 export type SingleListing = {
-  id: string;
+  id: number;
   title: string;
   brand_name: string;
   model_name: string;

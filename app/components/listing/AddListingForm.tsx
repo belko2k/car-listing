@@ -45,7 +45,7 @@ import {
   Transmission,
 } from '@/types';
 import { Input } from '../ui/input';
-import { supabaseBrowser } from '@/lib/supabase/client';
+
 import { Button } from '../ui/button';
 import { createListing, getSignedURL } from '@/actions/actions';
 import { toast } from 'sonner';

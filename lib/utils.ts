@@ -34,6 +34,18 @@ export const formattedDateTime = (dateTime: Date) => {
   }).format(date);
 };
 
+// Function to format date to DD. MM. YYYY
+export const formattedDateTimeSm = (dateTime: Date) => {
+  const date = new Date(dateTime);
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  })
+    .format(date)
+    .replace(/\//g, '. ');
+};
+
 export const formattedPhoneNumber = (phoneNumber: string) => {
   const formatted = phoneNumber
     .toString()

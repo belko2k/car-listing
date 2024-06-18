@@ -1,3 +1,5 @@
+Project in dev mode so registration works through custom SMTP server on Mailtrap (only dev can verify the reg. mail address) since supabase limits mails per day and it's recommended to host it by yourself in prod.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
